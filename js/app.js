@@ -534,26 +534,47 @@
       `;
     }
 
-    // Step 2: Socratic Question
+    // Step 2: Socratic Question (Integrated with AI & Offline Fallback)
     else if (currentLadderStep === 2) {
       stepHtml += `
         <div class="card" style="text-align: left;">
           <div class="card-title">
             <span>${ladderContent.step2_socratic_question.title}</span>
-            <span class="badge-tag">Rung 2</span>
+            <span class="badge-tag" id="socratic-source-badge">Socratic Guide</span>
           </div>
-          <div class="socratic-box">
-            <strong>🤔 Socratic Inquiry:</strong><br>
-            ${ladderContent.step2_socratic_question.prompt}
+          <div class="socratic-box" id="socratic-content-box">
+            <strong>🤔 Guided Question:</strong><br>
+            <span id="socratic-text-body">${ladderContent.step2_socratic_question.prompt}</span>
           </div>
           <button type="button" class="btn btn-primary" id="btn-ladder-next-3" style="margin-top: 12px;">
             Next Step: Run Controlled Variable Sweep &rarr;
           </button>
         </div>
       `;
+
+      // Fetch dynamic AI feedback in background
+      if (window.AIClient) {
+        setTimeout(async () => {
+          const aiRes = await window.AIClient.getFeedback(numId, hypothesis, trials, 2);
+          const badgeEl = document.getElementById('socratic-source-badge');
+          const textEl = document.getElementById('socratic-text-body');
+          if (badgeEl && textEl && aiRes && aiRes.question) {
+            textEl.textContent = aiRes.question;
+            if (aiRes.isFallback) {
+              badgeEl.textContent = 'Offline feedback';
+              badgeEl.style.background = '#f1f3f4';
+              badgeEl.style.color = '#5f6368';
+            } else {
+              badgeEl.textContent = 'AI Socratic Guide';
+              badgeEl.style.background = '#e8f0fe';
+              badgeEl.style.color = '#1a73e8';
+            }
+          }
+        }, 50);
+      }
     }
 
-    // Step 3: Controlled Variable Sweep & Graph
+    // Step 3: Controlled Variable Sweep & Graph (WITHOUT Peak Labels or Max Annotations)
     else if (currentLadderStep === 3) {
       const sweepData = window.DiagnoseEngine.generateControlledSweep(numId);
       stepHtml += `
@@ -569,7 +590,7 @@
             ${ladderContent.step3_sweep.prompt}
           </p>
 
-          <!-- Range-vs-Variable Graph -->
+          <!-- Range-vs-Variable Graph (NO Peak Marker, NO Max Label) -->
           <div class="sweep-graph-container">
             <svg class="sweep-svg" viewBox="0 0 320 160" preserveAspectRatio="none">
               <!-- Grid lines -->
@@ -591,12 +612,12 @@
               <polyline fill="none" stroke="#1a73e8" stroke-width="2.5" points="${pointsSvg}" />
       `;
 
-      // Draw scatter dots and labels
+      // Draw subtle axis ticks and input variable labels ONLY (no max values or peak labels)
       sweepData.points.forEach((p, idx) => {
         const x = 35 + (idx / (sweepData.points.length - 1)) * 265;
         const y = 130 - (p.R / maxVal) * 105;
         stepHtml += `
-          <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="#1557b0" />
+          <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="#1a73e8" />
           <text x="${x.toFixed(1)}" y="145" font-size="9" text-anchor="middle" fill="#5f6368">${p.label}</text>
         `;
       });
@@ -604,8 +625,8 @@
       stepHtml += `
             </svg>
             <div class="sweep-legend">
-              <span>Variable Sweep (${sweepData.variableName})</span>
-              <span>Horizontal Range (R)</span>
+              <span>Input Variable (${sweepData.variableName})</span>
+              <span>Observed Range (R)</span>
             </div>
           </div>
 
@@ -660,7 +681,7 @@
   }
 
   // ==========================================
-  // SUMMARY SCREEN RENDERER
+  // SUMMARY SCREEN RENDERER (WITH LOCKED PLACEHOLDERS)
   // ==========================================
   function renderSummaryScreen() {
     const container = document.getElementById('summary-container');
@@ -668,7 +689,8 @@
 
     const state = window.AppState.getState();
     const totalTrials = state.trials.length;
-    const completedCount = state.completedChallenges.length;
+    const completed = state.completedChallenges || [];
+    const completedCount = completed.length;
 
     let html = `
       <div class="card" style="text-align: left; background: #e8f0fe; border-left: 4px solid var(--primary);">
@@ -684,8 +706,13 @@
       <div class="card" style="text-align: left;">
         <div class="card-title">
           <span>Physical Principles Discovered</span>
+          <span style="font-size: 11px; color: var(--text-muted);">${completedCount} Unlocked</span>
         </div>
-        
+    `;
+
+    // Principle 1: Challenge 1
+    if (completed.includes(1)) {
+      html += `
         <div class="principle-item">
           <div class="principle-icon">🎯</div>
           <div class="principle-content">
@@ -693,7 +720,22 @@
             <p>On flat ground, $\\theta$ and $90° - \\theta$ produce identical horizontal range because range depends on $\\sin(2\\theta)$.</p>
           </div>
         </div>
+      `;
+    } else {
+      html += `
+        <div class="principle-item" style="opacity: 0.65;">
+          <div class="principle-icon">🔒</div>
+          <div class="principle-content">
+            <h4 style="color: var(--text-muted);">1. Principle Locked</h4>
+            <p>Complete <strong>Challenge 1: The Bullseye</strong> to discover the symmetry governing launch angles.</p>
+          </div>
+        </div>
+      `;
+    }
 
+    // Principle 2: Challenge 2
+    if (completed.includes(2)) {
+      html += `
         <div class="principle-item">
           <div class="principle-icon">🚀</div>
           <div class="principle-content">
@@ -701,7 +743,22 @@
             <p>Doubling launch speed quadruples range ($2^2 = 4$). Range scales quadratically with initial speed, not linearly.</p>
           </div>
         </div>
+      `;
+    } else {
+      html += `
+        <div class="principle-item" style="opacity: 0.65;">
+          <div class="principle-icon">🔒</div>
+          <div class="principle-content">
+            <h4 style="color: var(--text-muted);">2. Principle Locked</h4>
+            <p>Complete <strong>Challenge 2: Double Trouble</strong> to uncover how speed governs projectile reach.</p>
+          </div>
+        </div>
+      `;
+    }
 
+    // Principle 3: Challenge 3
+    if (completed.includes(3)) {
+      html += `
         <div class="principle-item">
           <div class="principle-icon">⛰️</div>
           <div class="principle-content">
@@ -709,7 +766,22 @@
             <p>From an elevated cliff ($h &gt; 0$), free-fall time allows more initial velocity to be directed horizontally. The optimal angle shifts flatter ($\\approx 24°$).</p>
           </div>
         </div>
+      `;
+    } else {
+      html += `
+        <div class="principle-item" style="opacity: 0.65;">
+          <div class="principle-icon">🔒</div>
+          <div class="principle-content">
+            <h4 style="color: var(--text-muted);">3. Principle Locked</h4>
+            <p>Complete <strong>Challenge 3: The Cliff Shot</strong> to discover where the optimal angle moves when launching from height.</p>
+          </div>
+        </div>
+      `;
+    }
 
+    // Principle 4: Challenge 2 or 4 (Controlled Experimentation)
+    if (completed.includes(2) || completed.includes(4)) {
+      html += `
         <div class="principle-item">
           <div class="principle-icon">🔬</div>
           <div class="principle-content">
@@ -717,9 +789,20 @@
             <p>Changing more than one variable simultaneously confounds experimental evidence. Isolating one variable at a time is the cornerstone of scientific deduction.</p>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    } else {
+      html += `
+        <div class="principle-item" style="opacity: 0.65;">
+          <div class="principle-icon">🔒</div>
+          <div class="principle-content">
+            <h4 style="color: var(--text-muted);">4. Principle Locked</h4>
+            <p>Complete the inquiry challenges to master controlled experimental isolation.</p>
+          </div>
+        </div>
+      `;
+    }
 
+    html += `</div>`;
     container.innerHTML = html;
   }
 

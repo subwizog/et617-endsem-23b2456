@@ -73,3 +73,32 @@
   4. Built Summary Screen (`renderSummaryScreen`) synthesizing all 4 core physical principles, trials statistics, and unlocked achievements.
   5. Implemented Challenge 4: Stretch ($h=30\text{ m}, v=15\text{ m/s}$), analytical explanation, and unlocking mechanism.
   6. Verified all paths (M1, M2, Correct, Confounded) via automated test script.
+
+## Prompt Group 5: Phase 6 AI Socratic Integration, Answer-Leak Validator & Summary/Sweep Corrections
+- **Prompt:** Implement Summary Screen locked placeholders, verify Rung 3 sweep graphs have no peak labels/markers, proceed to Phase 6 of PLAN.md implementing Google Gemini REST in `api/feedback.js`, `validator.js`, `ai.js`, 6s timeout, schema validation, answer-leak regex checks, offline fallback, unit tests, and update AI_LOG.md.
+- **Actions taken:**
+  1. Updated Summary Screen (`renderSummaryScreen`):
+     - Configured progressive revelation: Principles 1–4 are displayed ONLY after the learner completes the corresponding challenge.
+     - Uncompleted challenges display locked placeholders (`🔒 Principle Locked`) with zero formulas, preventing premature exposure of $R \propto v^2$ or $\theta^*$ formulas.
+  2. Verified Rung 3 Sweep Graph:
+     - Verified that Range-vs-Variable SVG graph displays a clean trajectory curve with axis ticks only, without max markers, peak labels, optimal angle badges, or any answer-revealing cues.
+  3. Built Serverless AI Handler (`api/feedback.js`):
+     - Uses native fetch calling Google Gemini REST endpoint (`generateContent`).
+     - Reads API key securely from `process.env.LLM_API_KEY` (never committed or exposed to client).
+     - Model name configurable via `process.env.LLM_MODEL` (default: `gemini-1.5-flash`).
+     - 6-second timeout via `AbortController`.
+     - Strict schema parsing and error handling.
+  4. Built Pedagogical Validator (`js/validator.js`):
+     - Enforces JSON format with `tag` and `question`.
+     - Checks `tag` against allowed set: `['M1', 'M2', 'CONFOUNDED', 'NONE']`.
+     - Enforces $\le 25$ words and required ending question mark `?`.
+     - Enforces challenge-specific answer-leak regexes: rejects mentions of "24°", "quadruple", "v²", "optimal angle", etc.
+  5. Built Client-Side AI Orchestrator (`js/ai.js`):
+     - Dispatches request to `/api/feedback`.
+     - Dual-layer client validation against answer leaks.
+     - Gracefully falls back to pre-written Socratic prompts labelled with `"Offline feedback"`.
+  6. Created Unit Test Suite (`tests/ai_validator.test.js`):
+     - Tested rejection of "24°" in Challenge 3.
+     - Tested rejection of "quadruple" in Challenge 2.
+     - Tested acceptance of valid Socratic questions.
+     - Tested length and punctuation constraints (**7/7 tests passed**).
