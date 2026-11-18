@@ -1,5 +1,6 @@
 // Content Repository & Challenge Curriculum
 // All challenge specifications, prompt questions, hypothesis definitions, feedback texts, and validation logic.
+// STRICT PEDAGOGICAL DESIGN: Never reveals final answers prematurely to learners with misconceptions.
 
 (function (root, factory) {
   if (typeof module !== 'undefined' && module.exports) {
@@ -33,9 +34,7 @@
         hint: 'Think about projectile trajectories: can a high arc and a low drive land at the same spot?'
       },
       evaluateTrials: (trials) => {
-        // Find hits: R within 60 +/- 2
         const hits = trials.filter((t) => Math.abs(t.R - 60) <= 2.0);
-        // Extract distinct angles (differing by >= 5 degrees)
         const hitAngles = [];
         hits.forEach((t) => {
           if (!hitAngles.some((a) => Math.abs(a - t.theta) < 4)) {
@@ -50,11 +49,11 @@
           const a1 = Math.min(...hitAngles);
           const a2 = Math.max(...hitAngles);
           const sum = a1 + a2;
-          feedback = `🎉 **Outstanding!** You found two hitting angles: **${a1}°** and **${a2}°** (sum = ${sum}°). \n\n**Why does this happen?** Horizontal range on level ground depends on **sin(2θ)**. Because $\\sin(2\\theta) = \\sin(180° - 2\\theta) = \\sin(2(90° - \\theta))$, complementary angles that add up to **90°** produce the exact same horizontal range!`;
+          feedback = `🎉 **Outstanding!** You found two hitting angles: **${a1}°** and **${a2}°** (sum = ${sum}°).\n\n**Why does this happen?** Horizontal range on level ground depends on **sin(2θ)**. Because $\\sin(2\\theta) = \\sin(180° - 2\\theta) = \\sin(2(90° - \\theta))$, complementary angles that add up to **90°** produce the exact same horizontal range!`;
         } else if (hitAngles.length === 1) {
-          feedback = `🎯 You found one hitting angle at **${hitAngles[0]}°**. But can another angle reach 60 m? \n\n**Inquiry clue:** Look at the other side of **45°** (${hitAngles[0] < 45 ? 'try an angle higher than 45°' : 'try an angle lower than 45°'}). What happens?`;
+          feedback = `🎯 You found one hitting angle at **${hitAngles[0]}°**. But can another angle reach 60 m?\n\n**Inquiry clue:** Look at the other side of **45°** (${hitAngles[0] < 45 ? 'try an angle higher than 45°' : 'try an angle lower than 45°'}). What do you notice?`;
         } else if (trials.length >= 4) {
-          feedback = `No hits yet. Try angles near **35°** or **55°** with launch speed 25 m/s.`;
+          feedback = `No hits yet. Try angles on both sides of 45° (for instance, around 35° or 55°) with launch speed 25 m/s.`;
         } else {
           feedback = `Launch your first shot and observe where the ball lands relative to the 60 m flag.`;
         }
@@ -81,27 +80,33 @@
         m2Value: 45.2,  // 22.6 * 2 (linear misconception)
         hint: 'Does range depend linearly on speed, or something stronger?'
       },
-      evaluateTrials: (trials, predictionVal) => {
+      evaluateTrials: (trials, predictionVal, hasCompletedSupport = false) => {
         const trialsAt30 = trials.filter((t) => Math.abs(t.v - 30) <= 0.5);
         const hasTested30 = trialsAt30.length > 0;
+        const pred = Number(predictionVal);
+        const isM2 = pred && Math.abs(pred - 45.2) <= 5.0;
+
         let isComplete = false;
         let feedback = '';
-        let isM2 = false;
-
-        const pred = Number(predictionVal);
-        if (pred && Math.abs(pred - 45.2) <= 5.0) {
-          isM2 = true;
-        }
 
         if (hasTested30) {
           const latestAt30 = trialsAt30[trialsAt30.length - 1];
-          isComplete = true;
-          if (isM2) {
-            feedback = `⚠️ **Look at the difference:** You predicted **${pred} m** (doubling the range), but the actual range at 30 m/s is **${latestAt30.R.toFixed(1)} m**!\n\nDoubling the speed didn't double the range—it **quadrupled** it ($4 \\times 22.6 \\approx 90.4\\text{ m}$). Range scales with **v²**, so $(2v)^2 = 4v^2$!`;
-          } else if (pred && Math.abs(pred - 90.5) <= 10) {
+
+          if (isM2 && !hasCompletedSupport) {
+            // STRICT PEDAGOGICAL FIX: Do NOT reveal v² or quadrupling!
+            isComplete = false;
+            feedback = `⚠️ **Prediction Mismatch:** You predicted **${pred} m** (doubling the range), but the actual range measured at 30 m/s is **${latestAt30.R.toFixed(1)} m**!\n\nNotice that the ball went far beyond double distance. The relationship between speed and range is NOT simply proportional. Explore the **Support Ladder** below to discover the true relationship.`;
+          } else if (pred && Math.abs(pred - 90.5) <= 10.0) {
+            // Correct prediction path
+            isComplete = true;
             feedback = `🎉 **Spot-on Olympiad deduction!** You predicted **${pred} m** and the measured range is **${latestAt30.R.toFixed(1)} m**.\n\nRange is proportional to **v²**. When speed is multiplied by 2, range is multiplied by $2^2 = 4$!`;
+          } else if (hasCompletedSupport) {
+            // Completed support path
+            isComplete = true;
+            feedback = `🎉 **Inquiry Complete!** Through your controlled speed sweeps, you discovered that range grows with **v²**. Doubling the speed quadruples the range from 22.6 m to **${latestAt30.R.toFixed(1)} m**!`;
           } else {
-            feedback = `At 30 m/s the projectile travelled **${latestAt30.R.toFixed(1)} m**. Compare that to 22.6 m at 15 m/s: $90.5 / 22.6 \\approx 4.0$. Range scales with **v²**!`;
+            isComplete = false;
+            feedback = `At 30 m/s the projectile reached **${latestAt30.R.toFixed(1)} m** (compared to 22.6 m at 15 m/s). Investigate the Support Ladder to uncover the governing formula.`;
           }
         } else {
           feedback = `You predicted **${pred || '--'} m**. Now switch to the Lab, set speed to **30 m/s**, and hit Launch to test your prediction!`;
@@ -132,29 +137,39 @@
         ],
         hint: 'From a cliff, gravity has more time to pull the projectile down. Do you need as much vertical launch speed?'
       },
-      evaluateTrials: (trials, predictionId) => {
+      evaluateTrials: (trials, predictionId, hasCompletedSupport = false) => {
         const trial45 = trials.find((t) => Math.abs(t.theta - 45) <= 1);
-        const lowerTrials = trials.filter((t) => t.theta < 40 && t.theta > 15);
         let bestTrial = null;
         trials.forEach((t) => {
           if (!bestTrial || t.R > bestTrial.R) bestTrial = t;
         });
 
+        const isM1 = predictionId === '45' || predictionId === '60';
         let isComplete = false;
         let feedback = '';
 
-        if (bestTrial && bestTrial.theta <= 30 && bestTrial.theta >= 20 && bestTrial.R >= 22.0) {
+        // True optimal angle for cliff launch (10 m/s, 20 m) is 24.3° with R ≈ 22.6m
+        const isOptimalFound = bestTrial && Math.abs(bestTrial.theta - 24.3) <= 2.5 && bestTrial.R >= 22.4;
+
+        if (isOptimalFound) {
+          // Learner found the true optimal angle
           isComplete = true;
-          feedback = `🎉 **Discovery Made!** Your best range was **${bestTrial.R.toFixed(1)} m** at **${bestTrial.theta}°**.\n\nNotice that **45° only gave ~20.3 m**. When launching from a height $h > 0$, the projectile already has extra flight time from falling. Shifting energy into horizontal speed ($v_x$) by launching flatter ($\\approx 24°$) yields a much longer range!`;
-        } else if (trial45 && !lowerTrials.length) {
-          feedback = `You tested 45° and got **${trial45.R.toFixed(1)} m**. Is 45° really the best? \n\nTry testing flatter angles like **30°, 25°, or 20°** in the Lab!`;
-        } else if (bestTrial) {
-          feedback = `Current best: **${bestTrial.R.toFixed(1)} m** at **${bestTrial.theta}°**. Sweep angles between **20° and 30°** to find the absolute peak!`;
+          feedback = `🎉 **Discovery Made!** Your best range was **${bestTrial.R.toFixed(1)} m** at **${bestTrial.theta}°**.\n\nNotice that **45° only gave ~20.3 m**. When launching from a height $h > 0$, the projectile already gets extra flight time from falling. Directing more initial velocity horizontally (flatter launch $\\approx 24°$) yields a significantly longer range!`;
+        } else if (trial45 && bestTrial && bestTrial.R > trial45.R + 0.3) {
+          // STRICT PEDAGOGICAL FIX: Do NOT reveal 24° optimal angle!
+          isComplete = false;
+          feedback = `⚠️ **Observation:** Your 45° shot went **${trial45.R.toFixed(1)} m**, but trial #${bestTrial.challengeTrialIndex || ''} (${bestTrial.theta}°) went **${bestTrial.R.toFixed(1)} m**—farther than 45°!\n\n45° is optimal ONLY when landing at the launch level. From a 20 m cliff, what changed? Enter the Support Ladder to sweep angles and locate the true peak.`;
+        } else if (trial45 && !hasCompletedSupport) {
+          isComplete = false;
+          feedback = `At 45° your range is **${trial45.R.toFixed(1)} m**. Is 45° truly the maximum from an elevated cliff? Try testing flatter angles in the Lab or check the Support Ladder!`;
+        } else if (hasCompletedSupport) {
+          isComplete = true;
+          feedback = `🎉 **Inquiry Complete!** Through your angle sweep, you proved that launching from a cliff shifts the peak range below 45°.`;
         } else {
-          feedback = `Launch your first cliff shot to see how gravity behaves when launching from a 20 m height.`;
+          feedback = `Launch from the 20 m cliff in the Lab to compare angles!`;
         }
 
-        return { isComplete, bestTrial, feedback };
+        return { isComplete, isM1, bestTrial, feedback };
       }
     },
     {
@@ -177,17 +192,18 @@
         trials.forEach((t) => {
           if (!bestTrial || t.R > bestTrial.R) bestTrial = t;
         });
-        const isComplete = Boolean(bestTrial && bestTrial.theta >= 25 && bestTrial.theta <= 30);
-        return {
-          isComplete,
-          bestTrial,
-          feedback: `Theoretical optimum for $h = 30\\text{ m}, v = 15\\text{ m/s}$ is **27.7°** ($R \\approx 31.8\\text{ m}$). As $h \\to \\infty$, the optimal angle approaches $0°$ (pure horizontal launch)!`
-        };
+        const isComplete = Boolean(bestTrial && bestTrial.theta >= 25 && bestTrial.theta <= 30 && trials.length >= 3);
+        let feedback = '';
+        if (isComplete) {
+          feedback = `🏆 **Olympiad Level Achievement!** You found optimal angle **${bestTrial.theta}°** (Range: **${bestTrial.R.toFixed(1)} m**).\n\n**Analytical Proof:** The exact formula is $\\theta^* = \\arctan\\left(\\frac{v}{\\sqrt{v^2 + 2gh}}\\right)$. As cliff height $h \\to \\infty$, the denominator grows, driving $\\theta^* \\to 0°$ (pure horizontal launch). Excellent physical reasoning!`;
+        } else {
+          feedback = `Test multiple angles between 20° and 35° at $h = 30\\text{ m}, v = 15\\text{ m/s}$ to locate the optimal peak, then enter your written explanation.`;
+        }
+        return { isComplete, bestTrial, feedback };
       }
     }
   ];
 
-  // Spot the flaw question (administered after Challenge 2)
   const SPOT_THE_FLAW_TASK = {
     title: 'Spot the Flaw in the Experiment',
     scenario: 'A student ran two trials to see what makes a projectile travel farther:\n• Trial 1: Angle = 30°, Speed = 15 m/s (Range = 20.0 m)\n• Trial 2: Angle = 45°, Speed = 25 m/s (Range = 63.8 m)',

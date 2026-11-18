@@ -53,3 +53,23 @@
      - Interactive horizontal bar chart for visual trajectory comparisons.
      - Interactive "Spot the Flaw in the Experiment" task.
   5. Verified all acceptance criteria for Phase 3 via Node.js script.
+
+## Prompt Group 4: Phase 4 Diagnosis, Support Ladder, Controlled Sweep & Pedagogical Safeguards
+- **Prompt:** Proceed to Phase 4 of PLAN.md: implement diagnose.js (M1, M2, CONFOUNDED, FAILED_PREDICTION), Support/Revise screen with 4-step ladder, controlled variable sweep with 5-6 points and range-vs-variable graph, hypothesis revision and retesting, Summary screen, Challenge 4 Stretch, and strict pedagogical fix preventing premature disclosure of physical answers.
+- **Actions taken:**
+  1. Built `js/diagnose.js` evaluating:
+     - `M1`: Assumes 45° is optimal for elevated launches ($h > 0$).
+     - `M2`: Assumes linear scaling ($2\times \text{speed} \implies 2\times \text{range}$) instead of quadratic $v^2$ scaling.
+     - `CONFOUNDED`: Changed multiple variables between consecutive trials.
+     - `FAILED_PREDICTION`: Significant discrepancy between hypothesis and experimental results.
+  2. Implemented 4-Step Support Ladder (`renderSupportScreen`):
+     - **Rung 1 (Name the gap):** Side-by-side comparison of prediction vs experimental data without answers.
+     - **Rung 2 (Socratic reflection):** Guided reasoning about orthogonal velocities and flight times.
+     - **Rung 3 (Controlled sweep):** Generates 5–6 single-variable trials and renders an SVG Range-vs-Variable curve without labeling the optimum peak.
+     - **Rung 4 (Revise hypothesis):** Learner records revised hypothesis and retests in the Virtual Lab.
+  3. Implemented Pedagogical Safeguard:
+     - In `js/content.js`, feedback for $M1$ and $M2$ learners explicitly hides the formulas ($v^2$, $24^\circ$) until the learner either explores the true optimum or completes the support ladder.
+     - Correct learners immediately skip the support ladder and receive an Olympiad harder follow-up challenge.
+  4. Built Summary Screen (`renderSummaryScreen`) synthesizing all 4 core physical principles, trials statistics, and unlocked achievements.
+  5. Implemented Challenge 4: Stretch ($h=30\text{ m}, v=15\text{ m/s}$), analytical explanation, and unlocking mechanism.
+  6. Verified all paths (M1, M2, Correct, Confounded) via automated test script.
