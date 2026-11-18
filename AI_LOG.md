@@ -17,3 +17,22 @@
   7. Built `index.html` housing all 7 application screens as semantic sections.
   8. Created hash-based router `js/app.js` with active navigation handling and persistent `23B2456 · ET 617 End-Sem` footer.
   9. Verified physics tests with `node tests/physics.test.js` (5/5 passed).
+
+## Prompt Group 2: Phase 2 Virtual Lab Screen Implementation
+- **Prompt:** "next" (Proceed to Phase 2 per PLAN.md)
+- **Actions taken:**
+  1. Built `js/state.js` implementing state persistence with `localStorage` (trials, hypotheses, unlocked challenges, changed-variable detection).
+  2. Built `js/lab.js` virtual lab controller:
+     - HTML5 `<canvas>` rendering with DPR high-resolution auto-scaling.
+     - Dynamic coordinate projection (`worldToScreen`), ground line, cliff rendering when $h > 0$, target marker when active.
+     - Projectile launch animation with trajectory tracer ball and landing detection.
+     - Faded ghost paths representing earlier trials with trial tags (`#1`, `#2`) and trial angle.
+     - Real-time readouts for Range ($R$), Max Height ($H$), and Time of Flight ($T$).
+     - Variable lock logic (locks $v$ and $h$ for Challenge 1, locks $\theta$ and $h$ for Challenge 2, etc.).
+  3. Built mobile-first C3 one-handed controls in `css/style.css`:
+     - Large steppers ($\ge 48\times 48\text{ px}$) for angle, speed, and cliff height.
+     - Continuous sliders as secondary controls.
+     - 52 px thumb-accessible **Launch** button in the lower screen zone.
+     - Direct hit / landing range toast notifications.
+  4. Updated `index.html` and `js/app.js` to initialize the Lab canvas on route activation.
+  5. Verified all acceptance criteria for Phase 2.

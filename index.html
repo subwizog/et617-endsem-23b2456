@@ -32,7 +32,7 @@
               <span class="badge-status unlocked">Active</span>
             </div>
             <div class="card-desc">Hit a target at 60 m using two different launch angles on flat ground.</div>
-            <a href="#/predict/1" class="btn btn-primary">Start Challenge 1</a>
+            <a href="#/lab/1" class="btn btn-primary">Enter Challenge 1 Lab</a>
           </div>
 
           <div class="card" id="card-ch2">
@@ -41,7 +41,7 @@
               <span class="badge-status">Locked</span>
             </div>
             <div class="card-desc">Predict what happens to the range when launch speed doubles from 15 to 30 m/s.</div>
-            <a href="#/predict/2" class="btn btn-secondary">Open Challenge 2</a>
+            <a href="#/lab/2" class="btn btn-secondary">Open Challenge 2 Lab</a>
           </div>
 
           <div class="card" id="card-ch3">
@@ -50,7 +50,7 @@
               <span class="badge-status">Locked</span>
             </div>
             <div class="card-desc">Launch from a 20 m cliff. Does 45° still give the longest range?</div>
-            <a href="#/predict/3" class="btn btn-secondary">Open Challenge 3</a>
+            <a href="#/lab/3" class="btn btn-secondary">Open Challenge 3 Lab</a>
           </div>
 
           <div class="card" id="card-ch4">
@@ -59,7 +59,7 @@
               <span class="badge-status">Locked</span>
             </div>
             <div class="card-desc">h = 30 m cliff launch: derive and explain the shifting optimal angle.</div>
-            <a href="#/predict/4" class="btn btn-secondary">Open Challenge 4</a>
+            <a href="#/lab/4" class="btn btn-secondary">Open Challenge 4 Lab</a>
           </div>
         </div>
 
@@ -88,23 +88,94 @@
         </div>
       </section>
 
-      <!-- Screen 3: Lab (#/lab or #/lab/:id) -->
+      <!-- Screen 3: Lab Screen (#/lab or #/lab/:id) -->
       <section id="screen-lab" class="screen">
-        <div class="card">
-          <div class="card-title">
-            <span id="lab-challenge-title">Virtual Lab: Trajectory Canvas</span>
-            <span class="badge-tag" id="lab-badge">Experiment</span>
+        <!-- Challenge Header Badge -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-size: 13.5px; font-weight: 700; color: var(--text-main);" id="lab-challenge-title">Challenge 1: The Bullseye</span>
+          <span class="badge-tag">Canvas Lab</span>
+        </div>
+
+        <!-- Simulation Canvas -->
+        <div class="canvas-card">
+          <canvas id="sim-canvas" width="330" height="190"></canvas>
+        </div>
+
+        <!-- Notification Toast -->
+        <div id="lab-notification" class="lab-toast"></div>
+
+        <!-- Real-time Readouts -->
+        <div class="readouts-row">
+          <div class="readout-card">
+            <div class="readout-label">Range (R)</div>
+            <div class="readout-val" id="readout-range">-- m</div>
           </div>
-          <p class="card-desc" id="lab-challenge-goal">Manipulate angle, speed, and height to observe trajectory.</p>
+          <div class="readout-card">
+            <div class="readout-label">Max Height (H)</div>
+            <div class="readout-val" id="readout-height">-- m</div>
+          </div>
+          <div class="readout-card">
+            <div class="readout-label">Flight Time (T)</div>
+            <div class="readout-val" id="readout-time">-- s</div>
+          </div>
         </div>
 
-        <div class="route-placeholder" id="lab-canvas-placeholder" style="min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-          <strong style="color: var(--primary);">Canvas Simulation View</strong>
-          <p>Interactive Canvas with ghost paths and steppers will be wired in Phase 2.</p>
+        <!-- Thumb-Zone Controls Card (C3: Mobile-First Steppers) -->
+        <div class="controls-card">
+          <!-- Launch Angle Stepper -->
+          <div class="control-group" id="control-group-theta">
+            <div class="control-header">
+              <span class="control-title">Angle (&theta;)</span>
+              <span class="control-value-badge" id="val-theta">45 °</span>
+            </div>
+            <div class="stepper-row">
+              <button type="button" class="btn-stepper" id="btn-minus-theta" aria-label="Decrease Angle by 1 degree">&minus;</button>
+              <input type="range" class="var-slider" id="slider-theta" min="0" max="90" step="1" value="45" aria-label="Angle Slider">
+              <button type="button" class="btn-stepper" id="btn-plus-theta" aria-label="Increase Angle by 1 degree">&plus;</button>
+            </div>
+            <div class="lock-note" id="lock-note-theta"></div>
+          </div>
+
+          <!-- Launch Speed Stepper -->
+          <div class="control-group" id="control-group-v">
+            <div class="control-header">
+              <span class="control-title">Speed (v)</span>
+              <span class="control-value-badge" id="val-v">20 m/s</span>
+            </div>
+            <div class="stepper-row">
+              <button type="button" class="btn-stepper" id="btn-minus-v" aria-label="Decrease Speed by 1 m/s">&minus;</button>
+              <input type="range" class="var-slider" id="slider-v" min="5" max="40" step="1" value="20" aria-label="Speed Slider">
+              <button type="button" class="btn-stepper" id="btn-plus-v" aria-label="Increase Speed by 1 m/s">&plus;</button>
+            </div>
+            <div class="lock-note" id="lock-note-v"></div>
+          </div>
+
+          <!-- Launch Height Stepper -->
+          <div class="control-group" id="control-group-h">
+            <div class="control-header">
+              <span class="control-title">Cliff Height (h)</span>
+              <span class="control-value-badge" id="val-h">0 m</span>
+            </div>
+            <div class="stepper-row">
+              <button type="button" class="btn-stepper" id="btn-minus-h" aria-label="Decrease Height by 1 meter">&minus;</button>
+              <input type="range" class="var-slider" id="slider-h" min="0" max="30" step="1" value="0" aria-label="Height Slider">
+              <button type="button" class="btn-stepper" id="btn-plus-h" aria-label="Increase Height by 1 meter">&plus;</button>
+            </div>
+            <div class="lock-note" id="lock-note-h"></div>
+          </div>
         </div>
 
-        <div class="btn-row" style="margin-top: 16px;">
-          <a href="#/results/1" class="btn btn-primary" id="lab-results-btn">View Results &amp; Analysis &rarr;</a>
+        <!-- Thumb-Zone Primary Action: Launch Button -->
+        <div class="launch-bar">
+          <button type="button" class="btn btn-launch" id="btn-launch">
+            🚀 Launch Projectile
+          </button>
+        </div>
+
+        <!-- Secondary Actions Row -->
+        <div class="btn-row" style="margin-top: 8px;">
+          <button type="button" class="btn btn-secondary" id="btn-reset-trials" style="font-size: 13px;">Clear Trials</button>
+          <a href="#/results/1" class="btn btn-secondary" id="lab-results-btn" style="font-size: 13px;">Results &rarr;</a>
         </div>
       </section>
 
@@ -186,6 +257,22 @@
           </div>
         </div>
 
+        <!-- C3 One-Hand Mode Note -->
+        <div class="card" style="border-left: 4px solid var(--primary);">
+          <div class="card-title">
+            <span>📱 One-Hand Mode (Constraint C3)</span>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.55;">
+            <p>Designed specifically for <strong>360 px viewport width</strong> with zero horizontal scrolling. Primary controls sit in the lower 40% thumb zone:</p>
+            <ul style="padding-left: 18px; margin-top: 6px;">
+              <li><strong>Big &plus; / &minus; Steppers:</strong> 48&times;48 px tap targets for easy one-thumb precision without micro-dragging.</li>
+              <li><strong>Bottom Action Bar:</strong> 52 px Launch button easily reachable with one thumb.</li>
+              <li><strong>Fixed Bottom Navigation:</strong> Switch between Home, Lab, Results, and About using one thumb.</li>
+              <li><strong>Zero Hover-Only:</strong> Completely accessible via direct tap with no drag-and-drop required.</li>
+            </ul>
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-title">
             <span>Physics Model &amp; Assumptions</span>
@@ -197,15 +284,6 @@
               <li>Flat landing surface at y = 0. Launch height h &ge; 0.</li>
               <li>Ranges R are measured horizontally from launch x = 0.</li>
             </ul>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">
-            <span>C3: One-Handed Mobile Design</span>
-          </div>
-          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
-            <p>Optimized for 360 px screen width. All key actions, steppers, and navigation sit in the bottom thumb zone with tap targets &ge; 48 px. No drag-and-drop or hover-only interactions.</p>
           </div>
         </div>
 
@@ -244,6 +322,8 @@
   <!-- Scripts -->
   <script src="js/config.js"></script>
   <script src="js/physics.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/lab.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

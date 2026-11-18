@@ -4,9 +4,11 @@
   --primary: #1a73e8;
   --primary-dark: #1557b0;
   --primary-light: #e8f0fe;
-  --accent: #f2994a;
+  --accent: #e37400;
   --success: #1e8e3e;
+  --success-light: #e6f4ea;
   --danger: #d93025;
+  --danger-light: #fce8e6;
   --warning: #f9ab00;
   --bg-color: #f8f9fa;
   --surface: #ffffff;
@@ -39,7 +41,7 @@ body {
   overflow-x: hidden;
 }
 
-/* App container constrained to 360px - 480px on desktop, 100% on mobile */
+/* App container constrained to 360px - 440px on desktop, 100% on mobile */
 #app {
   width: 100%;
   max-width: 440px;
@@ -56,7 +58,7 @@ body {
 .app-header {
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 12px 16px;
+  padding: 10px 14px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -66,7 +68,7 @@ body {
 }
 
 .app-title-group h1 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text-main);
   line-height: 1.2;
@@ -91,7 +93,7 @@ body {
 /* Main Content Views */
 main {
   flex: 1;
-  padding: 14px 16px;
+  padding: 12px 14px;
 }
 
 .screen {
@@ -110,40 +112,40 @@ main {
 
 /* Screen Typography & Card Components */
 .screen-heading {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: var(--text-main);
 }
 
 .screen-intro {
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--text-muted);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .card-title {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 600;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .card-desc {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 /* Thumb-Zone Action Buttons (C3: Tap target >= 48px) */
@@ -152,8 +154,8 @@ main {
   align-items: center;
   justify-content: center;
   min-height: 48px;
-  padding: 0 20px;
-  font-size: 15px;
+  padding: 0 16px;
+  font-size: 14.5px;
   font-weight: 600;
   border-radius: 8px;
   border: none;
@@ -192,6 +194,16 @@ main {
   color: #ffffff;
 }
 
+.btn-danger-outline {
+  background-color: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger-outline:active {
+  background-color: var(--danger-light);
+}
+
 .btn-row {
   display: flex;
   gap: 8px;
@@ -220,6 +232,207 @@ main {
 .badge-status.completed {
   background: #ceead6;
   color: #0d652d;
+}
+
+/* ==================================================== */
+/* LAB SCREEN SPECIFIC STYLES (Canvas, Readouts, Controls) */
+/* ==================================================== */
+
+.canvas-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+#sim-canvas {
+  width: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* Readouts Row */
+.readouts-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.readout-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.readout-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.readout-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 2px;
+}
+
+/* Notification Toast */
+.lab-toast {
+  display: none;
+  background: #202124;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  transition: opacity 0.2s ease;
+}
+
+.lab-toast.visible {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+.lab-toast.success {
+  background: #0d652d;
+  color: #ffffff;
+}
+
+.lab-toast.info {
+  background: #1a73e8;
+  color: #ffffff;
+}
+
+/* Controls Bottom-Sheet / Container */
+.controls-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.control-group {
+  margin-bottom: 8px;
+}
+
+.control-group:last-child {
+  margin-bottom: 0;
+}
+
+.control-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.control-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.control-value-badge {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* One-Handed Stepper Component */
+.stepper-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-stepper {
+  flex: 0 0 54px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #f8f9fa;
+  color: var(--text-main);
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.btn-stepper:active:not(:disabled) {
+  background: #e8eaed;
+  transform: scale(0.96);
+}
+
+.btn-stepper:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Secondary Range Slider */
+.var-slider {
+  flex: 1;
+  height: 36px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.var-slider:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.lock-note {
+  font-size: 11px;
+  color: #b06000;
+  margin-top: 2px;
+  font-weight: 500;
+  display: none;
+}
+
+.locked-var .control-title {
+  color: var(--text-muted);
+}
+
+.locked-var .control-value-badge {
+  color: var(--text-muted);
+}
+
+/* Launch Action Bar (Thumb-Zone Priority) */
+.launch-bar {
+  margin-top: 4px;
+}
+
+.btn-launch {
+  height: 52px;
+  min-height: 52px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: var(--primary);
+  color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(26, 115, 232, 0.3);
+}
+
+.btn-launch:active {
+  background: var(--primary-dark);
+  box-shadow: 0 1px 3px rgba(26, 115, 232, 0.4);
 }
 
 /* Persistent Bottom Navigation (Thumb Zone) */
@@ -290,7 +503,7 @@ main {
   margin-right: 4px;
 }
 
-/* Placeholder box for initial phase */
+/* Placeholder box */
 .route-placeholder {
   background: #ffffff;
   border: 1px dashed var(--border);

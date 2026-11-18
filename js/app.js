@@ -61,7 +61,15 @@
     // 4. Update dynamic links and labels if challenge ID is provided
     updateChallengeContext(name, id);
 
-    // 5. Ensure scroll resets to top of view
+    // 5. If switching to Lab, initialize or reload lab challenge view
+    if (name === 'lab' && window.LabController) {
+      window.LabController.loadChallenge(id);
+      setTimeout(() => {
+        window.LabController.resizeCanvas();
+      }, 20);
+    }
+
+    // 6. Ensure scroll resets to top of view
     window.scrollTo(0, 0);
   }
 
@@ -94,6 +102,9 @@
   // Initialize router
   window.addEventListener('hashchange', handleRoute);
   window.addEventListener('DOMContentLoaded', () => {
+    if (window.LabController) {
+      window.LabController.init();
+    }
     if (!window.location.hash) {
       window.location.hash = '#/home';
     } else {
