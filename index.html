@@ -9,13 +9,35 @@
 </head>
 <body>
   <div id="app">
-    <!-- Header -->
-    <header class="app-header">
-      <div class="app-title-group">
-        <h1 id="header-title">Projectile Virtual Lab</h1>
-        <div class="sub" id="header-sub">Class 11 Olympiad · Inquiry Lab</div>
+    <!-- Top Header & Menu Tab Navigation -->
+    <header class="app-top-bar">
+      <div class="app-header">
+        <div class="app-title-group">
+          <h1 id="header-title">Projectile Virtual Lab</h1>
+          <div class="sub" id="header-sub">Class 11 Olympiad · Inquiry Lab</div>
+        </div>
+        <span class="badge-tag" id="header-badge">P5 · T10</span>
       </div>
-      <span class="badge-tag" id="header-badge">P5 · T10</span>
+
+      <!-- Top Menu Tab Bar -->
+      <nav class="top-nav" aria-label="Main Navigation">
+        <a href="#/home" class="nav-item" id="nav-home">
+          <span class="nav-icon">🧭</span>
+          <span>Home</span>
+        </a>
+        <a href="#/lab/1" class="nav-item" id="nav-lab">
+          <span class="nav-icon">🧪</span>
+          <span>Lab</span>
+        </a>
+        <a href="#/results/1" class="nav-item" id="nav-results">
+          <span class="nav-icon">📊</span>
+          <span>Results</span>
+        </a>
+        <a href="#/about" class="nav-item" id="nav-about">
+          <span class="nav-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+      </nav>
     </header>
 
     <!-- Main Screens Container -->
@@ -313,26 +335,6 @@
         </div>
       </section>
     </main>
-
-    <!-- Persistent Bottom Navigation Bar (Thumb Zone) -->
-    <nav class="bottom-nav" aria-label="Main Navigation">
-      <a href="#/home" class="nav-item" id="nav-home">
-        <span class="nav-icon">🧭</span>
-        <span>Home</span>
-      </a>
-      <a href="#/lab/1" class="nav-item" id="nav-lab">
-        <span class="nav-icon">🧪</span>
-        <span>Lab</span>
-      </a>
-      <a href="#/results/1" class="nav-item" id="nav-results">
-        <span class="nav-icon">📊</span>
-        <span>Results</span>
-      </a>
-      <a href="#/about" class="nav-item" id="nav-about">
-        <span class="nav-icon">ℹ️</span>
-        <span>About</span>
-      </a>
-    </nav>
 
     <!-- Global Footer Visible on EVERY Screen -->
     <footer class="global-footer" id="app-footer">

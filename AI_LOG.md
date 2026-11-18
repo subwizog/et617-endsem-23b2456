@@ -127,3 +127,17 @@
   4. Executed all test suites:
      - `node tests/physics.test.js`: 5/5 passed.
      - `node tests/ai_validator.test.js`: 7/7 passed.
+
+## Prompt Group 7: Viva Live Modification Request - Top Navigation Bar
+- **Prompt:** "change the menu tab which is at the bottom to the top of the phone"
+- **Actions taken:**
+  1. Updated `index.html`:
+     - Wrapped the app header and a new `.top-nav` inside a sticky `.app-top-bar` container at the top of `#app`.
+     - Relocated Home, Lab, Results, and About navigation tabs to the top of the phone directly below the header.
+     - Removed the old `.bottom-nav` element from the bottom of `#app`.
+     - Preserved the fixed footer with identity token `23B2456 · ET 617 End-Sem` at the bottom of the phone.
+  2. Updated `css/style.css`:
+     - Added `.app-top-bar` sticky container rules (`position: sticky; top: 0; z-index: 100`).
+     - Added `.top-nav` horizontal tab styling with active state indicators (accent background and 3px primary bottom border).
+     - Adjusted `#app` padding-bottom from 102 px to 54 px, freeing up vertical space for the canvas simulation and controls.
+  3. Re-ran all physics engine and AI safety unit tests: 100% passing.
