@@ -1,0 +1,941 @@
+
+PS.md
+PS.md
+MD
+this is the problem statement
+tell me what all doi have to do
+
+What you have to do (ET 617 End-Sem, today 6-9 PM)
+The task: In 2 hours, design, build and deploy a working educational app for your personal exam card, then write a report and defend it in a viva. Marks go mostly to how well the problem, learner, content and design fit together, and to how you used AI. Visual polish counts for little.
+
+First 10 minutes
+Pick your card: P (one of 6 problems), T (topic for that problem), L (learner context) and C (design constraint). Use the tables in Sections 3 and 4.
+Disclose it in the Excel sheet on Moodle, and screenshot the card for your submission.
+Create your GitHub repo after the exam starts, named et617-endsem-<rollno>.
+Timeline checkpoints
+When	What
+By 0:30	DESIGN.md committed (problem, outcomes, persona, content plan)
+By 1:00	First deployment live
+Every 30 min	A commit, because one giant commit at the end gets flagged
+1:30	Finish the app
+1:35-1:55	Write the report
+By 1:55-2:00	Submit on Moodle
+2:00-3:00	Viva, in your slot
+What to build (the app, D4)
+Host at et617-<rollno>.vercel.app or an equivalent.
+At least 5 connected screens or states, with learner inputs, system outputs and transitions.
+Your C constraint must be visibly implemented.
+Your identity token (roll no.) in the footer of every screen and on an About screen.
+Your problem’s design challenge must be demonstrated in the app. For example, P5 needs an unsuccessful experiment followed by support that doesn’t reveal the answer. P4 needs the decision rule with all three outcomes shown.
+No API keys in the repo. Use Vercel environment variables. If an AI call fails, a clearly labelled fallback with recorded sample outputs is allowed.
+Don’t reuse code from your course project. Name any starter template or UI library in the report.
+The report (one PDF, headings in this order)
+Identity card · D1 · D2 · D3 · D4 (URL + screen map) · D5 · D6 · D7 · D8 · AI-use log and reflection.
+
+D1 Educational problem: 3-5 sentences, plus 3 measurable outcomes with action verbs, plus the context of use (where, when, which device).
+D2 Persona: Expand your L seed into a name, age, prior knowledge, 2 likely misconceptions, device, time, language and motivation.
+D3 Content: One complete activity with a concept explanation and 5 or more tasks in at least 2 formats. Include model answers and feedback for a correct response and for each of the 2 misconceptions.
+D4: The URL and a screen map.
+D5 Two scenarios, run on the live app: (a) a correct learner and (b) a learner showing one D2 misconception. The app must respond differently, and you need screenshots of both.
+D6 AI spec, for every AI feature: what it does, the actual prompt or model call, the output, how you check it before the learner sees it, and the fallback.
+D7 Pedagogical rationale: How the design supports learning, how feedback and scaffolding work, your answer to the design challenge, and how C and L shaped your choices.
+D8 Evaluation plan: Assessment items or a rubric per outcome, the log data you’d collect, and what counts as success.
+AI-use log: Share links or exports of every AI chat, in order.
+No placeholder text like “AI generates a question”. Show the real content and real feedback.
+
+Moodle submission checklist
+Live app URL
+GitHub repo link (public or shared with the course account)
+Report PDF
+AI chat links or exports
+Exam card screenshot
+Viva (after you submit)
+The app and repo are frozen, and viva changes go on a separate viva branch.
+
+Walkthrough: Show the correct path and the misconception path live.
+Live change request: The examiner gives you one change and you make it while they watch, AI allowed.
+Why question: Explain one design decision tied to your persona or constraint.
+Integrity
+Build only for your own card, and disclose all AI use. Code, content, persona and feedback text are all checked for similarity.
+
+The exam is on right now, so tell me your card (P, T, L, C) and I’ll help you with DESIGN.md, the persona, the content and the app plan. The 0:30 DESIGN.md deadline is the first thing to hit.
+
+p5
+
+Asking which of the ten options they want.
+Good, P5 is the inquiry-based virtual lab. Here is what the app must do for P5:
+
+The learner manipulates variables, forms a hypothesis, runs experiments and interprets results.
+The app must respond to their experimental choices (not a fixed script) and let them revise their hypothesis.
+Design challenge: show one unsuccessful experiment and the support that follows, without just revealing the right answer. Think confounded variables, a hint that points at what to change, or a “what did you hold constant?” prompt.
+Your D5 misconception path should be the same moment: the learner runs a flawed experiment because of a D2 misconception, and the app responds differently than it does for a correct learner.
+I still need the rest of your card to plan anything:
+
+T: which P5 topic (T1-T10 in the Virtual lab column, e.g. pendulum, floating and sinking, photosynthesis, evaporation, lenses, projectile motion)
+L: which learner context (L1-L8)
+C: which design constraint (C1-C6)
+Send those as something like “T3, L5, C4”, and I’ll draft your DESIGN.md (problem, 3 outcomes, persona, content plan) so you can commit it before the 0:30 mark.
+
+t 10
+l 6
+c3
+
+Your card is P5 · T10 Projectile motion · L6 Olympiad learner · C3 One-handed mobile. I’ve drafted DESIGN.md for it, so replace <ROLLNO> and the stack line, then commit it before 0:30.
+
+The core design
+
+Learner: Ananya, 16, Class 11, preparing for INPhO. She’s bored by routine drills, so the app gives her puzzle-style challenges, not plug-in questions.
+Misconception 1: “45° is always best.” It only holds when the launch and landing heights are equal.
+Misconception 2: “Double the speed, double the range.” Range scales with v², so it quadruples.
+Lab variables: angle, speed and launch height, with a trajectory animation, ghost paths of earlier trials and a trial table.
+Challenges:
+Hit a target with two different angles.
+Predict the range when speed is doubled.
+Find the best angle for a cliff launch.
+A stretch problem with a 30 m launch height.
+Design challenge (unsuccessful experiment): a four-step support ladder that never states the answer:
+Show the prediction against the result.
+Ask which variable she changed.
+Offer a controlled replay that sweeps one variable.
+Have her revise her hypothesis.
+C3: bottom-thumb-zone controls, +/- steppers instead of fiddly slider drags, 48 px tap targets, and no hover-only actions.
+AI feature: the LLM reads her written hypothesis and trial log and returns a Socratic question. It runs through a Vercel serverless function, with rule-based fallback feedback if the call fails.
+Next steps
+
+Create the repo et617-endsem-<rollno> now, if you haven’t.
+Commit DESIGN.md.
+Start the Lab screen, with canvas physics and sliders, so you can deploy by 1:00.
+What’s your roll number, and do you want plain HTML/JS with canvas or Vite + React? Plain HTML/JS is the faster and safer choice in 2 hours. Once you choose, I can write the lab screen’s code.
+
+DESIGN
+Document
+·MD
+roll no 23b2456
+
+DESIGN.md now has roll number 23B2456 in the header, and the stack is set to plain HTML/JS with canvas on Vercel. That was my default, since you didn’t choose one.
+
+Do now (target: before 0:30)
+
+Create the GitHub repo et617-endsem-23b2456.
+Commit DESIGN.md from the file I presented earlier. Re-download it, since the roll number was added after the first copy.
+Create the Vercel project so the URL is et617-23b2456.vercel.app.
+Disclose your card in the Moodle Excel sheet if you haven’t.
+Your footer text on every screen is 23B2456.
+
+Reply “go” and I’ll write the first deployable version: a single index.html with the Lab screen (canvas trajectory, angle, speed and height steppers in the bottom thumb zone, ghost paths, trial table) and the footer. That should get you to the 1:00 first-deploy checkpoint. The Predict, Results, Support and Summary screens and the AI route come next.
+
+uploaded this desing file in github
+i want to use anti gravity ide to make the code on my laptop
+i have the problem statement and desing file in md on antigravity
+i want you to create a detailed step by step plan for antigravity ide and then review it from me and then i will put that md file into antogravity ide and give it a prompt for the same
+
+I’ve written PLAN.md for Antigravity. Please review it before you load it.
+
+What it contains
+
+Ground rules: plain HTML/JS with canvas, 23B2456 in every footer, no API keys in the repo, a commit after each phase, and one phase at a time with your approval before the next.
+File structure and exact physics formulas: includes unit tests, e.g. complementary angles give equal range, doubling speed gives 4× range, and the best angle from a 20 m cliff at 10 m/s is about 24°.
+7 screens and routes: Home, Predict, Lab, Results, Support, Summary and About.
+C3 checklist: 360 px width, thumb-zone controls, ± steppers, 48 px targets and no hover-only actions.
+Real content for 4 challenges:
+The Bullseye: hit a 60 m target with two angles.
+Double Trouble: predict the range at double the speed. It targets M2.
+The Cliff Shot: find the best angle from a 20 m cliff. It targets M1.
+Stretch: a 30 m cliff with a written explanation.
+Each has correct and misconception feedback, plus a “spot the flaw” confounded-trials task.
+Rule-based diagnosis and the support ladder: it covers the design challenge and never states the answer. The ladder goes name the gap, ask which variable changed, do a controlled sweep, then revise the hypothesis.
+AI feature spec: the full system prompt, JSON output, validation rules, an answer-leak check and a labelled offline fallback. This also feeds your D6.
+Phase table: 7 phases, each with an acceptance check and commit message.
+Viva readiness: a CONFIG object and a content file, so live changes are one-line edits.
+Report support: an AI_LOG.md and the prompts needed for D6 and D4.
+Decision I need from you: which LLM provider for the AI feature, Gemini (free tier, convenient since you’re in Antigravity) or Claude? The plan has a <<PROVIDER>> placeholder that you or I should fill in before you load it.
+
+Check these before you load it
+
+Challenge numbers: the values (v = 25 and target 60 m; 40° with 15 → 30 m/s; cliff 20 m at 10 m/s) are my hand calculations. The plan tells Antigravity to compute them in code and flag any mismatch.
+Timing: it’s a lot for the time left. Phases 1-4 plus a deploy are the must-haves. If you’re behind schedule, the AI route (phase 6) is the one to trim, since the fallback is allowed.
+AI chat logs: you need to share every AI chat in your report. Antigravity may not give you share links, so export or screenshot those chats as you go.
+The prompt to paste into Antigravity along with PLAN.md
+
+Read PS.md, DESIGN.md and PLAN.md in this workspace. Follow PLAN.md exactly, one phase at a time. Start with Phase 1 only. When done, list what you built, give me the manual test steps, and wait for me to say “next”. Do not commit API keys. Ask me before deviating from the plan.
+
+Tell me the provider and any changes you want, and I’ll finalise the file.
+
+PLAN
+Document
+·MD
+1795007970687_image.png
+this is the current progress
+how is it?
+
+Setting up the project files and styles.
+It looks good. It’s following Phase 1 of the plan.
+
+What the screenshot shows
+
+It read PS.md, DESIGN.md and PLAN.md first.
+It checked git status and created .gitignore, so keys won’t get committed.
+It created config.js, physics.js and physics.test.js, then ran the physics tests. This matches the file structure in the plan.
+It built style.css, index.html and app.js for the shell and router.
+Things to check
+
+Test result: the screenshot only shows that it ran the tests, not whether they passed. Open that step and confirm all the checks passed, including the complementary angles, the 4× range for doubled speed and the best angle of about 24.3° for a 10 m/s, 20 m cliff launch. If any fail, ask it to fix physics.js before moving on.
+Footer: open index.html in a browser and click through the routes. 23B2456 should be in the footer of all 7 screens.
+Stray file: it also read a file called 01 AGENT INSTRUCTIONS.md, which isn’t one of ours. Check whether that’s a file that came with Antigravity or your workspace. If its instructions conflict with PLAN.md, tell the agent that PLAN.md wins.
+No Phase 1 summary yet: it should stop and report when it finishes Phase 1. Don’t say “next” until you’ve done checks 1 and 2.
+Do now: commit and push once those pass, using the message feat: skeleton, physics, tests. Then connect the repo to Vercel so you have a deploy in place for the 1:00 checkpoint. A deploy with just the shell is fine, since you can keep redeploying as phases land.
+
+Send me the test output or the agent’s Phase 1 summary if you’d like me to look at it.
+
+Phase 1 Completed: Repo Skeleton, Physics Engine & Screen Router
+Here is what was built according to PLAN.md:
+
+Repository Security & Config:
+.gitignore ignores .env*, node_modules, .vercel, and temp files.
+js/config.js holds all core limits (θ:0−90∘,v:5−40 m/s,h:0−30 mθ:0−90∘,v:5−40 m/s,h:0−30 m), tolerances, g=9.8 m/s2g=9.8 m/s2, and token 23B2456.
+Pure Physics Engine:
+js/physics.js implements exact formulas:
+vx=vcos⁡θ,vy=vsin⁡θvx=vcosθ,vy=vsinθ
+T=vy+vy2+2ghgT=gvy+vy2+2gh
+R=vxTR=vxT
+H=h+vy22gH=h+2gvy2
+Discrete trajectory sampling (60 points) for canvas rendering.
+θ∗=arctan⁡(vv2+2gh)θ∗=arctan(v2+2ghv) for theoretical ground-truth verification.
+Physics Test Suite:
+tests/physics.test.js verifies all 5 acceptance conditions from Section 2 of PLAN.md (5/5 passed).
+App Shell & 7-Screen Router:
+index.html contains semantic <section> views for all 7 screens: home, predict, lab, results, support, summary, and about.
+css/style.css provides mobile-first C3 constraint design (360 px width viewport, thumb-zone bottom navigation bar, tap targets ≥48 px≥48 px, no hover-only interactions).
+js/app.js drives the hash router (#/home, #/predict/:id, #/lab/:id, etc.).
+Identity token footer 23B2456 · ET 617 End-Sem is anchored and visible across every screen and route.
+Documentation & Process Evidence:
+README.md with a quick-reference table for viva modifications.
+AI_LOG.md logging prompts and actions.
+Manual Test Steps
+
+Verify physics tests in the terminal:
+bash
+node tests/physics.test.js
+Expected output: All 5 tests pass with 0 failed.
+2. Verify app routing and token in browser:
+   * Open index.html in your browser (or toggle mobile view in DevTools at 360 px width).
+   * Click the bottom navigation icons: Home, Lab, Results, About.
+   * Direct-navigate to:
+      * #/home
+      * #/predict/1
+      * #/lab/1
+      * #/results/1
+      * #/support/1
+      * #/summary
+      * #/about
+   * Verification: Each screen displays its respective content without errors, and the footer 23B2456 · ET 617 End-Sem remains visible at the bottom of every screen.
+
+Suggested Git Commit
+You can now commit Phase 1:
+
+bash
+git add .
+git commit -m "feat: skeleton, physics, tests"
+Please say "next" when you are ready to proceed to Phase 2 (Lab screen with canvas physics, steppers, ghost paths, and readouts).
+
+is this in line>
+
+Reviewing the evaluation notes and the deployment status.
+Yes, this matches Phase 1 of PLAN.md: the physics, 5 tests, 7-screen router, the footer 23B2456 on every screen and the 360 px thumb-zone styling all line up. It also added README.md and AI_LOG.md, which the plan asked for. One thing is unconfirmed: the “5/5 passed” and “footer on every screen” claims come from the agent, so check them yourself before you move on.
+
+Do these now (about 3 minutes)
+
+Run node tests/physics.test.js yourself and confirm you see 5 passed and 0 failed.
+Open index.html at 360 px and visit all 7 routes. Check the footer is visible on each one without being hidden behind the bottom nav.
+Commit and push with the message feat: skeleton, physics, tests.
+Connect the repo to Vercel and make sure the URL is et617-23b2456.vercel.app. Your first deploy is due by 1:00, so don’t wait for the Lab screen.
+Two things to watch
+
+01 AGENT INSTRUCTIONS.md: I still don’t know what this file is. If it sets rules that conflict with PLAN.md, tell the agent that PLAN.md wins.
+Routing on Vercel: the app uses hash routes (#/home), so it should work as a static site without extra config. Confirm the deployed page loads at the root URL and not only locally.
+Once the push and deploy are done, say “next” to the agent for Phase 2, the Lab screen. In your Phase 2 test, check that you can reach every control with one thumb at 360 px, and that the ghost paths accumulate across launches.
+
+Phase 2 Completed: Virtual Lab Screen (Canvas Physics, Steppers & Ghost Paths)
+Here is what was built according to PLAN.md and DESIGN.md:
+
+State & Local Storage Manager (js/state.js):
+Manages trials per challenge, current challenge ID, unlocked challenges, and hypotheses.
+Computes changed: [...] array comparing consecutive trials to diagnose multi-variable confounding.
+Persists state across browser reloads via localStorage.
+Interactive Simulation Canvas & Controller (js/lab.js):
+Auto-scaling projection (worldToScreen): Dynamically scales world coordinates to canvas pixels, factoring in target distance, height, and all ghost paths so everything stays in view.
+Visuals: Renders ground line with meter marks, cliff platform when h>0h > 0h>0, aiming directional vector at the launch point, and target flag/bullseye zone (60 m±2 m60\text{ m} \pm 2\text{ m}60 m±2 m).
+Smooth Launch Animation: Animates the projectile in real time along its trajectory with a red tracer and landing detection.
+Faded Ghost Paths: Previous trials remain visible as faded dashed trajectories with labels (#1, #2) showing angle and impact point.
+Real-Time Readouts: Updates Range (RRR), Max Height (HHH), and Time of Flight (TTT) upon landing.
+Variable Locking: Automatically displays lock badges and disables controls for variables fixed in a challenge (e.g., v=25 m/sv=25\text{ m/s}v=25 m/s and h=0h=0h=0 locked in Challenge 1).
+One-Handed Mobile Controls (Constraint C3) in index.html & css/style.css:
+Steppers: Large 54×48 px54 \times 48\text{ px}54×48 px +++ and −-− stepper buttons (exceeding the 48 px48\text{ px}48 px minimum tap target) for easy one-thumb angle adjustment (±1∘\pm 1^\circ±1∘).
+Thumb-Zone Launch Button: Prominent 52 px52\text{ px}52 px high button placed in the bottom 40% of the screen.
+Toast Notifications: Instant feedback on landing range and target hits.
+Router & Layout Updates (js/app.js):
+Automatically initializes canvas dimensions and loads challenge context when navigating to #/lab/:id.
+Updated About screen with a dedicated One-Hand Mode (Constraint C3) specification card.
+Manual Test Steps
+
+Open the Lab screen at 360 px width:
+In your browser, open index.html.
+In browser DevTools, switch to Mobile Device mode and set width to 360 px (e.g. 360 × 740).
+Click the bottom nav Lab icon (or go to #/lab/1).
+Test one-handed steppers:
+Notice vvv (25 m/s) and hhh (0 m) show 🔒 locked badges.
+Tap the +++ and −-− stepper buttons on Angle (θ\thetaθ): verify angle increments/decrements by 1∘1^\circ1∘ easily with one thumb tap.
+Test Launch & Ghost Paths:
+Set θ=35∘\theta = 35^\circθ=35∘ and tap 🚀 Launch Projectile.
+Watch the projectile animate and land near 59.8 m59.8\text{ m}59.8 m, triggering the 🎯 DIRECT HIT toast notification and updating readouts (R≈59.8 mR \approx 59.8\text{ m}R≈59.8 m).
+Change angle to θ=55∘\theta = 55^\circθ=55∘ and tap Launch again.
+Notice the previous 35∘35^\circ35∘ path stays as a faded dashed ghost path labelled #1 (35°), and the new path hits the target at the complementary angle!
+Tap Clear Trials and confirm: trials and ghost paths clear.
+Suggested Git Commit
+You can now commit Phase 2:
+
+bash
+git add .
+git commit -m "feat: lab screen"
+Please say "next" when you are ready to proceed to Phase 3 (Home, Predict, Results screens + Challenges 1–3 content + target logic).
+
+Yes, Phase 2 is in line with PLAN.md. The Lab screen has the canvas, locked variables, ghost paths, readouts, big steppers and a thumb-zone Launch button, and it saves trials in a log with the changed list that the later diagnosis needs.
+
+Things to check yourself
+
+Range numbers: the agent says 35° lands at about 59.8 m. By my calculation, R = 25² · sin70° / 9.8 ≈ 59.9 m, so the figures are very close, but trust what your app shows on screen. Both 35° and 55° should give the same range, and it should be within 2 m of 60 so you get the hit toast.
+Phone-width test: at 360 px, confirm the canvas, readouts, the three steppers and Launch all fit without page scrolling. Also check that the footer isn’t covered by the bottom nav. This is your C3 evidence, so take a screenshot now for the report.
+Locked variables: Challenge 1 should lock v and h. Open #/lab/2 and #/lab/3 and confirm the locks change. If challenge-specific config isn’t built yet, that’s expected, because Phase 3 adds the challenge content.
+Rapid taps: tap Launch repeatedly and change the angle mid-animation. Nothing should break or double-log trials.
+Do now
+
+Commit and push with feat: lab screen.
+If you haven’t deployed yet, do it now. The 1:00 first-deploy checkpoint is the one most likely to be missed, and the Lab is a good thing to have live. Open the Vercel URL on your phone to check it.
+If all that works, say “next” for Phase 3. For that phase, test Challenge 2 by entering a prediction of 45 m and Challenge 3 by picking 45°. You’ll need those same two paths for your D5 screenshots.
+
+
+Ran check git status Created content.js Edited style.css Edited index.html Analyzed app.js:L1-114 Edited app.js Ran run physics tests Ran verify AppContent evaluation logic Edited AI_LOG.md Ran check git status ### Phase 3 Completed: Home, Predict & Results Screens + Challenges 1–3 Conte
+
+PASTED
+Mostly in line. It covers the three challenges, the predict and results screens, target logic and the Spot the Flaw widget. The agent also checked its content logic and updated AI_LOG.md, so the process evidence is good. There is one real problem, though.
+
+Problem: the M2 path gives the answer away on the Results screen
+In your Challenge 2 test, the Results screen explains that the range quadrupled because it scales with v². That undercuts your design challenge. PLAN.md says a learner whose prediction fails should not be told the answer. They should get the support ladder: compare prediction and result, answer “which variable changed?”, sweep 10, 20 and 30 m/s themselves, then revise. The full v² explanation belongs after they’ve done that, or after a correct prediction.
+
+Check Challenge 3 for the same issue. After a 45° shot, the Results screen should say another angle went further and ask what changed. It shouldn’t say “best angle is about 24°, a flatter launch”.
+
+Fix this when you start Phase 4. Paste this to the agent:
+
+On Results, for a learner with a flagged misconception (M1 or M2), show only the prediction-vs-result comparison and the Phase 4 support ladder. Do NOT show the full physical explanation, the v² statement, the optimal angle or the optimal range until the learner has completed ladder step 3 (controlled sweep) and revised their hypothesis, or has given a correct answer. Learners with a correct prediction can see the full explanation immediately and get the harder follow-up.
+
+Smaller things
+
+Challenge 1 clue: the “look at the other side of 45°” hint appears after one hit. The plan said to show it after 4 launches with only one angle found. It’s fine to keep, but it’s an early hint.
+Test the three paths yourself and screenshot them: correct (Challenge 2 with 90, or Challenge 1 with 35° and 55°), M2 (predict 45) and M1 (pick 45° in Challenge 3). They are your D5 evidence.
+Vercel: confirm the deployed URL shows these new screens. If you haven’t deployed yet, do it now, because the first-deploy checkpoint is at 1:00.
+Do now: commit feat: challenges and screens and push. Then say “next” along with the fix message above.
+
+Phase 4 is the one that matters most for the design challenge and viva. If you’re short on time, finish it and deploy it before you touch the AI route.
+
+
+Ran check git status Created diagnose.js Edited content.js Analyzed index.html:L195-250 Edited index.html Edited style.css Edited app.js Ran run diagnosis & pedagogical tests · Exited with code 1 Checked task Run diagnosis & pedagogical tests Edited content.js Ran run full diagnosis and pe
+
+PASTED
+Reviewing the summary page's gating of the formula and trial challenges
+Phase 4 is in line with PLAN.md, and the main fix I asked for is in. The Results screen no longer gives the v² statement or the optimal angle until the learner has been through the ladder. The agent also found and fixed its own Challenge 3 completion bug, which is a good sign.
+
+Check these yourself and screenshot them for D5
+
+Run the tests: an earlier diagnosis test run exited with code 1 and was then fixed. Run node tests/physics.test.js and confirm it still passes.
+Path A (M2, predict 45): confirm the Results screen shows no “quadruple”, “v²” or “4×” before the ladder.
+Path B (M1, pick 45°): confirm there’s no “24°” or “22.6 m” before the ladder.
+Rung 3 graphs: the sweep plots must not label or highlight the peak. The learner should find it. Check that there’s no “max” marker or annotation.
+Path C (correct): predict 90.5 m and confirm the ladder is skipped and the harder follow-up appears.
+One leak to close: the Summary screen lists R ∝ v² and the θ* formula for anyone who opens it. A learner could read it before attempting the challenges. Each principle should appear only once its challenge is completed.
+
+What’s left
+
+Phase 5, deploy: you do this on Vercel. Make sure the latest push is live and the URL is et617-23b2456.vercel.app.
+Phase 6, AI route: this is still needed, because D6 requires at least one AI feature with a prompt, validation and fallback. I’d use Gemini’s free tier through a key from Google AI Studio, since you’re already in Antigravity. If you’d rather use Claude, say so.
+Phase 7, About, README and the C3 check: keep it short, since polish earns few marks.
+Paste this to the agent:
+
+Two fixes before Phase 6. (1) On the Summary screen, show each principle only after its challenge is completed; show a locked placeholder otherwise. (2) Confirm the Rung 3 sweep graphs have no peak label or max marker. Phase 5 (Vercel deploy) is done by me. Proceed to Phase 6 using Google Gemini via REST in api/feedback.js, key from process.env.LLM_API_KEY, model name in an env var. Follow Section 8 of PLAN.md exactly, including the system prompt, JSON schema validation, the answer-leak regex check per challenge, the 6 s timeout and the labelled “Offline feedback” fallback. Add a test file that checks the validator rejects a response containing “24°” for Challenge 3 and “quadruple” for Challenge 2.
+
+Do now
+
+Commit and push feat: diagnosis and support ladder.
+Get your Gemini key and add it in Vercel as LLM_API_KEY (Project Settings → Environment Variables), then redeploy. Don’t put it in any file in the repo.
+Start screenshotting your D5 paths (correct and M1 or M2). You’ll need them for the report.
+Check the clock against your timeline. The app should be finished by about 1:30, with the report starting at 1:35. If you’re behind, finish Phase 6 with the fallback working and skip extra polish.
+
+
+You're very close to completing the application. Phase 4 is essentially complete, but there are two things to fix before Phase 6: the Summary answer leak and verification that the sweep graph doesn't reveal the peak. Let's do this in the correct order so you don't lose any work. Step 1. Commit and
+
+PASTED
+shall i proceed with this?
+
+Reviewing a link label and model name detail
+Yes, proceed. That plan matches what I suggested, and the order is right: commit Phase 4, give the agent the two fixes plus the Phase 6 prompt, set the key in Vercel, then redeploy and test. Make these tweaks while you do it.
+
+Tweaks
+
+Model name: the GEMINI_MODEL value is left vague. Open Google AI Studio, pick a current Flash-type model from its model list, and use that exact name. Don’t let the agent guess one. If the name is wrong, the API call fails and the app falls back to offline feedback, which looks like the AI is “not working”. Put the real name in Vercel and tell the agent to read it from the env var.
+Keep the key out of your AI logs: your report needs your AI chat logs, so never paste the key into any chat, including this one. If you do by accident, delete the key in AI Studio and make a new one.
+Test the deployed app, not just local: api/feedback.js only runs on Vercel, or locally with vercel dev. After adding the env vars and redeploying, test on the live URL. Also test the offline path by briefly renaming the env var, or by checking that the app works when the call times out.
+Check the validation tests ran: ask the agent for the test output showing “24°” rejected for Challenge 3 and “quadruple” rejected for Challenge 2.
+Final check on the leak fixes: after the agent applies the Summary and sweep-graph changes, open the Summary screen on a fresh browser profile or after “Reset all”. It should show only locked placeholders.
+Order of work
+
+Commit and push Phase 4 now (git status first, as the plan says).
+Paste the agent prompt from that plan.
+While it works, create the Gemini key, add LLM_API_KEY and GEMINI_MODEL in Vercel, and save.
+Redeploy after the agent finishes and you push.
+Take your D5 screenshots on the live URL.
+On time: if you’re past the 1:30 mark, don’t let this run long. If the AI route isn’t working in about 15 minutes, go with the labelled offline fallback. The PS allows that, as long as your D6 describes the real AI behaviour. Start the report instead, because it has a hard deadline and several sections that need real content.
+
+Tell me when Phase 6 is done, or paste the test output if something fails, and I’ll help with the report structure for D1-D8.
+
+
+Ran check git status Created validator.js Created ai_validator.test.js Ran run AI validator tests Created feedback.js Created ai.js Viewed app.js:440-100 Analyzed app.js:L400-560 Analyzed app.js:L561-738 Analyzed index.html:L315-331 Edited index.html Edited app.js Analyzed app.js:L680-75
+
+PASTED
+Checking whether the AI feature is wired in at Rung 2
+Phase 6 matches Section 8 of PLAN.md: JSON schema, allowed tags, the 25-word limit, the ? check, answer-leak regexes, the 6 s timeout and a labelled offline fallback. The Summary locks and the clean sweep graph are in too, and the agent checked that no keys are in the code. The 7 validator tests passing is exactly what D6 needs.
+
+Things to check before you move on
+
+Model name: the flow diagram says gemini-1.5-flash. Open api/feedback.js and confirm it reads process.env.GEMINI_MODEL and that gemini-1.5-flash is only a fallback default. That model is old and may no longer be served, so set GEMINI_MODEL in Vercel to a current Flash model from your AI Studio model list. If the name is wrong, every call falls back to offline and it will look like the AI is broken.
+The live AI path is untested: the agent only tested the no-key fallback in Node. You haven’t seen a real Gemini response pass through the validator yet. Do that on the deployed site once the env vars are set.
+What the AI actually receives: PLAN.md says the request carries the learner’s written hypothesis plus the trial log, and that it feeds the Rung 4 revision and the Challenge 4 explanation. Ask the agent to confirm those are sent, not just the Rung 2 call. You’ll quote the real request in D6.
+Fresh-browser check: open #/summary in a fresh profile or after “Reset all”. It should show only locked placeholders.
+Do now
+
+Commit and push feat: AI feedback with fallback.
+In Vercel, confirm LLM_API_KEY and GEMINI_MODEL are set for Production, then redeploy.
+On the live URL, go to Challenge 2 → predict 45 → launch → Results → Support Ladder Rung 2. You should see the badge “AI Socratic Guide”. If it says “Offline feedback”, check the Vercel function logs for the cause, usually the model name or the key.
+Take screenshots of both badges. Briefly remove or rename the key to capture the offline one if you need it for D6.
+Next, Phase 7 trimmed. Since polish earns little, tell the agent to do only these:
+
+Phase 7, minimal: complete the About screen (identity token 23B2456, physics assumptions, one-hand mode note for C3, AI-use note with the model name and fallback), finish README (run, deploy, and “Where to change what” table), add accessible labels and sufficient contrast, and report the 360 px C3 check. No new features, no extra animation.
+
+After that, spend your time on the D5 screenshots on the live URL (correct, M2, M1) and the report. Say “next” to the agent, and tell me when you reach the report so I can draft D1-D8 from your actual app.
+
+
+Over 90% of your 5-hour limit used · Resets at 9:00 PM
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+
+
+
+
+Claude finished the response
+
+
+Conversation Log
+Before proceeding, implement these two corrections:
+
+1. SUMMARY SCREEN:
+Show each physics principle only after the learner completes its corresponding challenge. Before completion, show a locked placeholder. Do not reveal R ∝ v² or the θ* formula prematurely.
+
+2. RUNG 3 SWEEP GRAPHS:
+Verify that the range-versus-variable graph does not reveal the peak. No max marker, peak label, optimal-angle annotation or equivalent answer-revealing cue.
+
+Then proceed to Phase 6 of PLAN.md.
+
+AI implementation requirements:
+- Use Google Gemini through REST in api/feedback.js.
+- Read API key from process.env.LLM_API_KEY.
+- Keep model name configurable through an environment variable or CONFIG.
+- Follow Section 8 of PLAN.md exactly.
+- Use the specified system prompt.
+- Validate JSON schema and allowed misconception tags.
+- Enforce the 25-word question limit and question mark requirement.
+- Implement challenge-specific answer-leak regex validation.
+- Implement a 6-second timeout.
+- Provide labelled "Offline feedback" fallback when AI is unavailable or validation fails.
+- Never expose the API key in frontend code or commit it to GitHub.
+
+Add tests for the validator:
+- Challenge 3 response containing "24°" must be rejected.
+- Challenge 2 response containing "quadruple" must be rejected.
+
+Preserve all existing Phase 1–4 functionality.
+
+Update AI_LOG.md and provide:
+1. Files modified.
+2. AI request and response flow.
+3. Validation test results.
+4. Manual test instructions.
+5. Confirmation that the offline fallback works without an API key.
+
+Do not proceed to Phase 7 until I say "next".
+Phase 6 & Pedagogical Corrections Completed: AI Socratic Feedback & Safe Scaffolding
+
+All requested corrections and Phase 6 AI requirements from PLAN.md Section 8 have been implemented and verified.
+
+1. Files Modified / Created
+File	Purpose / Change
+js/app.js	Summary Screen: Principles are locked (🔒 Principle Locked) until their corresponding challenge is completed. No formulas (
+𝑅
+∝
+𝑣
+2
+R∝v
+2
+, 
+𝜃
+∗
+θ
+∗
+) appear prematurely.
+Rung 3 Sweep Graph: Verified clean curve line with axis ticks; no peak marker, no peak label, no optimal angle annotation.
+Rung 2 Support: Dynamic AI integration calling AIClient.getFeedback() with fallback badge.
+js/validator.js	Implements schema validation (tag, question), allowed tags (['M1', 'M2', 'CONFOUNDED', 'NONE']), word count (
+≤
+25
+≤25 words), question mark (?), and challenge-specific regex answer-leak rejection.
+api/feedback.js	Vercel Serverless Function calling Google Gemini REST (generateContent) using process.env.LLM_API_KEY. Enforces 6s timeout, validation, and safe offline fallback.
+js/ai.js	Client-side orchestrator connecting to /api/feedback with dual-layer safety validation and pre-written Socratic prompts labelled with "Offline feedback".
+tests/ai_validator.test.js	Unit test suite verifying answer leak rejections ("24°", "quadruple"), word limits, punctuation, and valid schemas (7/7 passed).
+index.html	Loaded <script src="js/validator.js"></script> and <script src="js/ai.js"></script>.
+AI_LOG.md	Appended Prompt Group 5 with AI architecture and leak checks.
+2. AI Request and Response Flow
+Learner at Support Ladder Rung 2
+               │
+               ▼
+      [js/ai.js: getFeedback()]
+               │
+               ▼ POST (6s timeout)
+    [/api/feedback Serverless Function]
+               │
+        Has LLM_API_KEY?
+        ├── NO  ─► Return Offline Rule Fallback: {"fallback": true, "question": "...", "tag": "M2"}
+        └── YES ─► Call Google Gemini REST API (gemini-1.5-flash)
+                     │
+                     ▼
+             Parse JSON Output
+                     │
+                     ▼
+         [js/validator.js: validateAIResponse()]
+           • Allowed tag? ("M1", "M2", "CONFOUNDED", "NONE")
+           • Word count <= 25 words?
+           • Ends with '?'?
+           • Answer leak regex check (e.g. no "24°", no "quadruple")
+                     │
+        Valid? ──────┼── NO  ─► Return Offline Rule Fallback
+                     └── YES ─► Return {"fallback": false, "tag": "...", "question": "..."}
+               │
+               ▼
+     [Frontend Renders Socratic Question]
+       • If fallback: Badge reads "Offline feedback" (gray)
+       • If live LLM: Badge reads "AI Socratic Guide" (blue)
+3. Validation Test Results
+
+Ran node tests/ai_validator.test.js:
+
+text
+Running AI Validator Safety Tests...
+  [PASS] Challenge 3 response containing "24°" must be rejected (Answer Leak)
+  [PASS] Challenge 2 response containing "quadruple" must be rejected (Answer Leak)
+  [PASS] Valid Socratic question in Challenge 2 passes
+  [PASS] Valid Socratic question in Challenge 3 passes
+  [PASS] Question exceeding 25 words is rejected
+  [PASS] Question not ending with question mark is rejected
+  [PASS] Invalid tag is rejected
+AI Validator Tests Finished: 7 passed, 0 failed.
+4. Confirmation: Offline Fallback Without API Key
+
+When LLM_API_KEY is not present (or when network is unavailable):
+
+The serverless handler gracefully returns HTTP 200 with { fallback: true, question: "...", tag: "..." }.
+Verified via direct Node test of api/feedback.js:
+json
+{
+  "fallback": true,
+  "tag": "M2",
+  "question": "When speed doubled, did both horizontal speed and time of flight increase?",
+  "source": "offline_rule_engine",
+  "reason": "LLM_API_KEY environment variable not configured."
+}
+No crashes, no errors, no leaked secrets. The frontend displays the prompt clearly labelled as "Offline feedback".
+5. Manual Test Steps
+Verify Locked Summary Screen:
+Fresh load at #/summary:
+Verify that all 4 principles show 🔒 Principle Locked with instructions on which challenge to solve.
+Confirm that neither 
+𝑅
+∝
+𝑣
+2
+R∝v
+2
+ nor the 
+𝜃
+∗
+θ
+∗
+ formula is visible.
+Verify Support Ladder Sweep Graph (No Peak Markers):
+In Challenge 3, enter Support Ladder (#/support/3) and proceed to Rung 3.
+Inspect the SVG Range-vs-Angle curve: verify it shows a clean trajectory curve and axis tick labels (
+15
+∘
+,
+20
+∘
+,
+25
+∘
+.
+.
+.
+15
+∘
+,20
+∘
+,25
+∘
+...).
+Confirm there is no maximum point marker, no peak label, and no optimal angle callout.
+Verify Socratic Question & Offline Badge:
+In Support Ladder Rung 2: inspect the Guided Question card.
+Verify the question is short (
+≤
+25
+≤25 words), ends with ?, and displays the badge "Offline feedback" (or "AI Socratic Guide" when deployed with a key).
+Suggested Git Commit
+
+You can now commit and push Phase 6:
+
+bash
+git add .
+git commit -m "feat: AI feedback with fallback"
+git push origin main
+
+Please say "next" when you are ready to proceed to Phase 7 (About screen, README, polish, C3 mobile verification, accessibility basics).
+
+nextx
+Phase 7 Completed: About Screen, README, C3 Verification & Final Checklist
+
+All deliverables for Phase 7 have been completed according to PLAN.md Sections 10, 11, 12, and 13.
+
+1. What Was Built & Polished
+About Screen (index.html & js/app.js):
+Full exam card specification: Roll number 23B2456, P5 (Virtual lab), T10 (Projectile motion), L6 (Olympiad learner Ananya, 16), C3 (Mobile-first, one-handed).
+Dedicated C3 One-Hand Mode specification card explaining thumb-zone placement, 360 px layout, and 
+≥
+48
+ px
+≥48 px tap targets.
+Ideal physics assumptions stated clearly (
+𝑔
+=
+9.8
+ m/s
+2
+g=9.8 m/s
+2
+, no air drag, flat landing).
+AI functionality and safety disclosure.
+Interactive ⚠️ Reset All Progress & Data button (AppState.resetAll()) to wipe local storage and restart fresh.
+Comprehensive Documentation (README.md):
+Complete local test and run instructions.
+Deliverable D4: Screen map and routing table.
+Deliverable D5: Contrasting learner scenarios (Misconception M1, M2, and Correct paths).
+Deliverable D6: AI feature architecture, exact prompts, validation pipeline, and offline fallback behavior.
+Viva Quick Reference Table: Detailed "Where to change what" table enabling rapid one-line adjustments during live evaluation.
+Audit & Process Evidence (AI_LOG.md):
+Updated with Prompt Group 6 detailing Phase 7 completion.
+2. Final Verification Checklist Results (PLAN.md Section 11)
+ 7 screens connected with no dead ends: home ↔ predict ↔ lab ↔ results ↔ support ↔ summary ↔ about.
+ Footer 23B2456 · ET 617 End-Sem visible across every route and screen.
+ C3 Constraint Verified: Tested at 360 px width; zero horizontal scroll; primary actions (Launch, Steppers, Bottom Nav) in the lower 40% thumb zone; tap targets 
+≥
+48
+ px
+≥48 px; zero hover-only dependencies.
+ Contrasting Learner Scenarios (D5): M1 (
+45
+∘
+45
+∘
+ cliff) and M2 (speed doubling) trigger the Support Ladder; correct predictions skip support and receive Olympiad harder follow-up challenges.
+ Support Ladder Safety: Never discloses numerical answers (
+𝑣
+2
+v
+2
+, 
+24.3
+∘
+24.3
+∘
+, 
+90.5
+ m
+90.5 m) prematurely. Sweep graphs present clean curvature lines without peak callouts.
+ Summary Screen Safety: Physics principles 1–4 are displayed only when earned; unearned principles show locked placeholders.
+ AI Safety & Fallback: Tested Google Gemini REST integration, answer-leak regexes, and verified that without an API key the app runs seamlessly with labelled "Offline feedback".
+ No secrets in repository: Zero API keys committed or exposed.
+ All automated tests pass:
+node tests/physics.test.js: 5/5 passed.
+node tests/ai_validator.test.js: 7/7 passed.
+3. Deliverables for Your Report
+For Deliverable D4 (Screens & Routes Table)
+markdown
+Route	Screen Name	Learner Actions	Leads To
+#/home	Roadmap	Overview of Challenges 1–4, unlocked/completed status, trial counters.	#/predict/:id
+#/predict/:id	Hypothesis & Prediction	Selects or writes hypothesis (MCQ, numeric prediction, written explanation) before testing.	#/lab/:id
+#/lab/:id	Virtual Lab	Manipulates θ, v, h via steppers; launches animated projectile; observes ghost paths & readouts.	#/results/:id
+#/results/:id	Results & Analysis	Inspects Prediction vs Result comparison, full trial log table, range bar chart, and spot-the-flaw quiz.	#/support/:id or #/summary
+#/support/:id	Support Ladder	4-step inquiry scaffolding: (1) Name Gap → (2) Socratic Reflection → (3) Controlled Sweep Graph → (4) Revise Hypothesis.	#/lab/:id
+#/summary	Summary	Portfolio of discovered physical principles (progressively unlocked upon completing each challenge).	#/home
+#/about	About	Candidate token 23B2456, physics model assumptions, C3 specifications, AI disclosure, and reset button.	#/home
+For Deliverable D6 (AI Specification & Prompts)
+text
+System Prompt:
+You are a physics lab guide for a Class 11 Olympiad student. The student is exploring projectile motion (no air resistance, g = 9.8 m/s²).
+Rules:
+1. Never state the final answer (no optimal angle, no target range, no "4 times").
+2. Reply with ONE short Socratic question (max 25 words) that points at the variable or the experiment design.
+3. Tag the likely misconception: "M1" (45° is always best), "M2" (range is linear in speed), "CONFOUNDED" (changed two variables), or "NONE".
+4. Use simple, friendly language. Short sentences.
+Return ONLY JSON: {"tag": "...", "question": "..."}
+Validation Pipeline:
+- JSON schema: {"tag": string, "question": string}
+- Allowed tags: ["M1", "M2", "CONFOUNDED", "NONE"]
+- Word count: <= 25 words, ending with '?'
+- Answer leak rejection regexes:
+  - Challenge 2: /4\s*(x|×|times)/i, /quadruple/i, /v²|v\^2/i, /90(\.5)?\s*m/i
+  - Challenge 3: /2[2-6]\s*(°|deg|degrees)/i, /24(\.3)?/, /less than 45/i, /optimal angle/i
+- Timeout: 6000 ms with graceful offline fallback
+Suggested Git Commit
+
+You can now commit and push the final phase:
+
+bash
+git add .
+git commit -m "docs: about, readme, c3 check"
+git push origin main
+
+Ran check git status
+Analyzed index.html:L240-320
+Edited index.html
+Analyzed app.js:L790-821
+Edited app.js
+Analyzed README.md:L1-41
+Edited README.md
+Edited AI_LOG.md
+Ran run all test suites · Exited with code 1
+Ran run all test suites in PowerShell
+Ran check git status
+
+### Phase 7 Completed: About Screen, README, C3 Verification & Final Checklist
+
+All deliverables for Phase 7 have been completed according to [PLAN.md Sections 10, 11, 12, and 13](file:///c:/Users/prajw/et617_endsem/et617-endsem-23b2456/PLAN.md#L164-L193).
+
+---
+
+### 1. What Was Built & Polished
+
+1. **About Screen ([index.html](file:///c:/Users/prajw/et617_endsem/et617-endsem-23b2456/index.html#L244) & [js/app.js](file:///c:/Users/prajw/et617_endsem/et617-endsem-23b2456/js/app.js#L814)):**
+   - Full exam card specification: Roll number **23B2456**, **P5** (Virtual lab), **T10** (Projectile motion), **L6** (Olympiad learner Ananya, 16), **C3** (Mobile-first, one-handed).
+   - Dedicated **C3 One-Hand Mode** specification card explaining thumb-zone placement, 360 px layout, and $\ge 48\text{ px}$ tap targets.
+   - Ideal physics assumptions stated clearly ($g = 9.8\text{ m/s}^2$, no air drag, flat landing).
+   - AI functionality and safety disclosure.
+   - Interactive **⚠️ Reset All Progress & Data** button (AppState.resetAll()) to wipe local storage and restart fresh.
+2. **Comprehensive Documentation ([README.md](file:///c:/Users/prajw/et617_endsem/et617-endsem-23b2456/README.md)):**
+   - Complete local test and run instructions.
+   - **Deliverable D4:** Screen map and routing table.
+   - **Deliverable D5:** Contrasting learner scenarios (Misconception M1, M2, and Correct paths).
+   - **Deliverable D6:** AI feature architecture, exact prompts, validation pipeline, and offline fallback behavior.
+   - **Viva Quick Reference Table:** Detailed "Where to change what" table enabling rapid one-line adjustments during live evaluation.
+3. **Audit & Process Evidence ([AI_LOG.md](file:///c:/Users/prajw/et617_endsem/et617-endsem-23b2456/AI_LOG.md)):**
+   - Updated with Prompt Group 6 detailing Phase 7 completion.
+
+---
+
+### 2. Final Verification Checklist Results (PLAN.md Section 11)
+
+- [x] **7 screens connected with no dead ends:** home &harr; predict &harr; lab &harr; results &harr; support &harr; summary &harr; about.
+- [x] **Footer 23B2456 · ET 617 End-Sem visible across every route and screen.**
+- [x] **C3 Constraint Verified:** Tested at 360 px width; zero horizontal scroll; primary actions (Launch, Steppers, Bottom Nav) in the lower 40% thumb zone; tap targets $\ge 48\text{ px}$; zero hover-only dependencies.
+- [x] **Contrasting Learner Scenarios (D5):** M1 ($45^\circ$ cliff) and M2 (speed doubling) trigger the Support Ladder; correct predictions skip support and receive Olympiad harder follow-up challenges.
+- [x] **Support Ladder Safety:** Never discloses numerical answers ($v^2$, $24.3^\circ$, $90.5\text{ m}$) prematurely. Sweep graphs present clean curvature lines without peak callouts.
+- [x] **Summary Screen Safety:** Physics principles 1–4 are displayed only when earned; unearned principles show locked placeholders.
+- [x] **AI Safety & Fallback:** Tested Google Gemini REST integration, answer-leak regexes, and verified that without an API key the app runs seamlessly with labelled "Offline feedback".
+- [x] **No secrets in repository:** Zero API keys committed or exposed.
+- [x] **All automated tests pass:**
+  - node tests/physics.test.js: **5/5 passed**.
+  - node tests/ai_validator.test.js: **7/7 passed**.
+
+---
+
+### 3. Deliverables for Your Report
+
+#### For Deliverable D4 (Screens & Routes Table)
+| Route | Screen Name | Learner Actions | Leads To |
+|---|---|---|---|
+| #/home | Roadmap | Overview of Challenges 1–4, unlocked/completed status, trial counters. | #/predict/:id |
+| #/predict/:id | Hypothesis & Prediction | Selects or writes hypothesis (MCQ, numeric prediction, written explanation) before testing. | #/lab/:id |
+| #/lab/:id | Virtual Lab | Manipulates θ, v, h via steppers; launches animated projectile; observes ghost paths & readouts. | #/results/:id |
+| #/results/:id | Results & Analysis | Inspects Prediction vs Result comparison, full trial log table, range bar chart, and spot-the-flaw quiz. | #/support/:id or #/summary |
+| #/support/:id | Support Ladder | 4-step inquiry scaffolding: (1) Name Gap → (2) Socratic Reflection → (3) Controlled Sweep Graph → (4) Revise Hypothesis. | #/lab/:id |
+| #/summary | Summary | Portfolio of discovered physical principles (progressively unlocked upon completing each challenge). | #/home |
+| #/about | About | Candidate token 23B2456, physics model assumptions, C3 specifications, AI disclosure, and reset button. | #/home |
+
+
+#### For Deliverable D6 (AI Specification & Prompts)
+System Prompt:
+You are a physics lab guide for a Class 11 Olympiad student. The student is exploring projectile motion (no air resistance, g = 9.8 m/s²).
+Rules:
+1. Never state the final answer (no optimal angle, no target range, no "4 times").
+2. Reply with ONE short Socratic question (max 25 words) that points at the variable or the experiment design.
+3. Tag the likely misconception: "M1" (45° is always best), "M2" (range is linear in speed), "CONFOUNDED" (changed two variables), or "NONE".
+4. Use simple, friendly language. Short sentences.
+Return ONLY JSON: {"tag": "...", "question": "..."}
+
+Validation Pipeline:
+- JSON schema: {"tag": string, "question": string}
+- Allowed tags: ["M1", "M2", "CONFOUNDED", "NONE"]
+- Word count: <= 25 words, ending with '?'
+- Answer leak rejection regexes:
+  - Challenge 2: /4\s*(x|×|times)/i, /quadruple/i, /v²|v\^2/i, /90(\.5)?\s*m/i
+  - Challenge 3: /2[2-6]\s*(°|deg|degrees)/i, /24(\.3)?/, /less than 45/i, /optimal angle/i
+- Timeout: 6000 ms with graceful offline fallback
+
+
+---
+
+### Suggested Git Commit
+You can now commit and push the final phase:
+git add .
+git commit -m "docs: about, readme, c3 check"
+git push origin main
+…
+Excellent. Phase 7 appears complete, including the C3 mobile verification, About screen, README, and AI documentation.
+
+There is just one issue to resolve before we call the implementation finished: Antigravity reports that the first automated test run exited with code 1, followed by a successful PowerShell test run. We should confirm the final test results independently.
+
+1. Commit and push Phase 7
+Run these commands in your project terminal:
+
+git status
+git add .
+git commit -m "docs: about, readme, c3 check"
+git push origin main
+
+If Git says there is nothing to commit, that's fine. Share the output.
+
+2. Final verification
+Run:
+
+node tests/physics.test.js
+node tests/ai_validator.test.js
+
+Expected results:
+
+Test suite
+
+Expected
+
+Physics tests
+
+5/5 passed
+
+AI validator tests
+
+7/7 passed
+
+Total
+
+12/12 passed
+
+Also confirm that Vercel deploys the latest Phase 7 commit successfully.
+
+3. Collect your D5 screenshots
+These are important evidence of the learning experience.
+
+D5 — Learner scenario evidence
+
+Projectile Motion at an Angle || Grade 9 Physics || Physics Notes | PPTX
+
+Scenario 1 — Correct prediction
+
+Learner predicts correctly, bypasses support and receives a harder follow-up.
+
+(Mô phỏng) Vật lý: Projectile Motion (chuyển động đạn)
+
+Scenario 2 — M1 misconception
+
+Learner assumes 45° is always the optimal angle, triggering the support ladder.
+
+Phet projectile motion - nerytm
+
+Scenario 3 — M2 misconception
+
+Learner assumes range increases linearly with speed, triggering diagnostic feedback.
+
+Use screenshots from your actual deployed application, not illustrative images.
+
+4. Then we prepare the examination report
+We can build the D1–D8 report using your actual implementation, README, PLAN.md, DESIGN.md, AI_LOG.md, test results and screenshots.
+
+First, complete the Phase 7 Git push and send me the terminal output. Then we'll move to the report.
+
+User attachment
+why is the last part still blocked?
+Challenge 4: Olympiad Stretch is locked because Challenge 3 has not yet been marked as completed.
+
+From your screenshot:
+
+Challenge 1: Completed
+
+Challenge 2: Completed
+
+Challenge 3: Active
+
+Challenge 4: Locked
+
+The application is enforcing sequential progression: you must complete Challenge 3 before Challenge 4 unlocks.
+
+What you need to do
+Open Challenge 3: The Cliff Shot.
+
+Complete its prediction and virtual lab experiment.
+
+Go through Results and any required Support Ladder steps.
+
+Complete the challenge and return to the roadmap.
+
+Check whether Challenge 4 is now unlocked.
+
+If Challenge 3 is already completed but Challenge 4 remains locked
+Ask Antigravity to investigate this:
+
+Inspect the Challenge 3 → Challenge 4 progression logic.
+
+Challenge 3 is showing as Active even after the learner has completed its experiments. Identify the exact completion condition required to unlock Challenge 4.
+
+Check whether:
+
+Challenge 3 completion is being persisted correctly.
+
+The completion state is updated after the Results/Support Ladder flow.
+
+The roadmap reads the same completion state.
+
+Challenge 4 unlocks when Challenge 3 is completed.
+
+Do not bypass the intended learning sequence or unlock Challenge 4 unconditionally. Fix the underlying progression bug if one exists.
+
+First, try completing Challenge 3. If it still doesn't unlock, send me a screenshot of its Results screen.
+
+
+
+
+
+⋮⋮⋮⋮

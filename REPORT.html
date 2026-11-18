@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ET 617 End-Semester Report - 23B2456</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #202124;
+      background: #f8f9fa;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    h1 { font-size: 26px; border-bottom: 2px solid #1a73e8; padding-bottom: 8px; margin-top: 0; color: #1a73e8; }
+    h2 { font-size: 20px; border-bottom: 1px solid #dadce0; padding-bottom: 6px; margin-top: 32px; color: #202124; }
+    h3 { font-size: 16px; margin-top: 20px; color: #1557b0; }
+    h4 { font-size: 14.5px; margin-top: 14px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+    th, td { border: 1px solid #dadce0; padding: 10px 12px; text-align: left; }
+    th { background: #f1f3f4; font-weight: 600; color: #202124; }
+    pre { background: #f8f9fa; border: 1px solid #dadce0; border-radius: 6px; padding: 14px; font-size: 12.5px; overflow-x: auto; }
+    code { font-family: Consolas, Monaco, monospace; background: #f1f3f4; padding: 2px 4px; border-radius: 4px; font-size: 13px; }
+    pre code { background: none; padding: 0; }
+    blockquote { border-left: 4px solid #1a73e8; margin: 14px 0; padding: 8px 14px; background: #e8f0fe; color: #174ea6; font-size: 13.5px; }
+    .print-bar { background: #1a73e8; color: white; padding: 12px 24px; text-align: right; border-radius: 6px; margin-bottom: 20px; max-width: 860px; margin-left: auto; margin-right: auto; display: flex; justify-content: space-between; align-items: center; }
+    .print-btn { background: white; color: #1a73e8; border: none; padding: 8px 16px; border-radius: 4px; font-weight: 700; cursor: pointer; }
+    @media print {
+      body { background: white; padding: 0; }
+      .container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+      .print-bar { display: none; }
+      h2 { page-break-after: avoid; }
+      table, pre { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="print-bar">
+    <span><strong>ET 617 End-Sem Submission Report</strong> · Roll No: 23B2456</span>
+    <button class="print-btn" onclick="window.print()">🖨️ Save as PDF / Print</button>
+  </div>
+
+  <div class="container">
+    <h1>ET 617 End-Semester Examination Report</h1>
+
+    <h2>Identity Card</h2>
+    <table>
+      <tr><th>Field</th><th>Detail</th></tr>
+      <tr><td><strong>Candidate Roll Number</strong></td><td><strong>23B2456</strong></td></tr>
+      <tr><td><strong>Problem Statement (P)</strong></td><td><strong>P5 – Inquiry-based virtual laboratory</strong></td></tr>
+      <tr><td><strong>Topic (T)</strong></td><td><strong>T10 – Projectile motion: angle and speed vs range (Class 11)</strong></td></tr>
+      <tr><td><strong>Learner Context (L)</strong></td><td><strong>L6 – High-achieving Olympiad learner (Ananya Iyer, 16, Class 11)</strong></td></tr>
+      <tr><td><strong>Design Constraint (C)</strong></td><td><strong>C3 – Mobile-first, one-handed (360 px width viewport)</strong></td></tr>
+      <tr><td><strong>Live Deployed App URL</strong></td><td><a href="https://et617-23b2456.vercel.app" target="_blank">https://et617-23b2456.vercel.app</a></td></tr>
+      <tr><td><strong>GitHub Repository</strong></td><td><a href="https://github.com/subwizog/et617-endsem-23b2456" target="_blank">https://github.com/subwizog/et617-endsem-23b2456</a></td></tr>
+    </table>
+
+    <h2>D1: Educational Problem</h2>
+    <h3>1. Problem Description</h3>
+    <p>Class 11 physics students routinely treat the horizontal projectile range formula $R = \frac{v^2 \sin 2\theta}{g}$ as an abstract plug-and-chug equation rather than an emergent consequence of orthogonal velocity components and time of flight. This textbook-drill conditioning leaves two persistent misconceptions intact: the belief that <strong>45° is universally optimal regardless of launch height</strong>, and that <strong>doubling launch speed merely doubles horizontal range</strong>. For high-achieving Olympiad aspirants who are bored by repetitive formula substitution, standard practice fails to develop genuine experimental intuition. They require a rigorous, challenge-based inquiry laboratory where they must formulate hypotheses, conduct controlled single-variable experiments, observe trajectory ghosts, and resolve cognitive conflicts when their predictions fail under non-trivial boundary conditions.</p>
+
+    <h3>2. Measurable Learning Outcomes</h3>
+    <ol>
+      <li><strong>Predict</strong> the change in horizontal projectile range resulting from doubling launch speed at a fixed angle, and <strong>verify</strong> through experimental trials that range scales quadratically ($R \propto v^2$) rather than linearly.</li>
+      <li><strong>Compare</strong> trajectories of complementary launch angles ($\theta$ and $90^\circ - \theta$) on level ground, and <strong>explain</strong> using mathematical symmetry why both angles achieve the identical horizontal range.</li>
+      <li><strong>Design</strong> a controlled, single-variable experiment and <strong>justify</strong> analytically why launching from an elevated cliff ($h > 0$) causes the range-maximizing angle to drop below 45° ($\theta^* < 45^\circ$).</li>
+    </ol>
+
+    <h3>3. Context of Use</h3>
+    <p>Evening study on personal Android smartphone (360 px width screen), operated primarily with one thumb while resting or commuting in 10–15 minute focused problem-solving bursts between competitive Olympiad mock sets. Assumptions: Flat landing surface, uniform downward gravitational field ($g = 9.8\text{ m/s}^2$), negligible air resistance (explicitly stated on the About screen).</p>
+
+    <h2>D2: Learner Persona</h2>
+    <pre><code>+------------------------------------------------------------------------+
+| PERSONA: Ananya Iyer                                                   |
+| Age: 16 | Grade: Class 11 CBSE (Science Stream) | Location: Pune, India|
++------------------------------------------------------------------------+
+| Target Exam: Indian National Physics Olympiad (INPhO)                  |
+| Device: Android Smartphone (360 px viewport width, one-handed use)     |
+| Language: English medium                                               |
+| Study Habit: 10-15 minute quick problem bursts between homework sets   |
++------------------------------------------------------------------------+
+| PRIOR KNOWLEDGE:                                                       |
+| • Kinematics equations of motion (SUVAT)                               |
+| • Vector resolution into orthogonal components (v_x, v_y)              |
+| • Basic trigonometric identities: sin(2θ) = 2 sinθ cosθ               |
+| • Can derive range on flat ground on paper, but lacks visceral model   |
++------------------------------------------------------------------------+
+| COGNITIVE MISCONCEPTIONS:                                              |
+| • Misconception M1 (Universal 45°): Believes 45° ALWAYS maximizes      |
+|   range, failing to account for initial height (h > 0).                |
+| • Misconception M2 (Linear Speed Scaling): Intuition says "double the  |
+|   speed, double the distance", overlooking quadratic v² dependency.    |
++------------------------------------------------------------------------+
+| AFFECTIVE MOTIVATION &amp; PAIN POINTS:                                    |
+| • Despises routine textbook drills that require mindless calculation.  |
+| • Highly motivated by Olympiad-style counterintuitive paradoxes.       |
+| • High self-efficacy; needs guided Socratic inquiry rather than        |
+|   paternalistic answer giveaways when an experiment fails.             |
++------------------------------------------------------------------------+</code></pre>
+
+    <h2>D3: Educational Content</h2>
+    <h3>1. Conceptual Framework &amp; Physics Model</h3>
+    <p>The horizontal range $R$ of a projectile launched at angle $\theta$ with speed $v$ from height $h$ above a flat surface is governed by the independent decomposition of horizontal and vertical motions:
+    $$v_x = v \cos\theta, \quad v_y = v \sin\theta$$
+    Vertical displacement is:
+    $$y(t) = h + v_y t - \frac{1}{2}gt^2$$
+    Setting $y(T) = 0$ yields the total time of flight $T$:
+    $$T = \frac{v_y + \sqrt{v_y^2 + 2gh}}{g}$$
+    Horizontal range is:
+    $$R = v_x T = \frac{v \cos\theta \left(v \sin\theta + \sqrt{v^2\sin^2\theta + 2gh}\right)}{g}$$
+    On level ground ($h = 0$), $R = \frac{v^2 \sin 2\theta}{g}$, which yields identical ranges for complementary angles and quadratic scaling with speed. On an elevated cliff ($h > 0$), differentiating $R$ with respect to $\theta$ yields the optimal angle $\theta^* = \arctan\left(\frac{v}{\sqrt{v^2 + 2gh}}\right) < 45^\circ$.</p>
+
+    <h3>2. Multi-Format Tasks &amp; Feedback Design</h3>
+    <table>
+      <tr><th>Task</th><th>Format</th><th>Objective &amp; Feedback</th></tr>
+      <tr>
+        <td><strong>1. The Bullseye</strong></td>
+        <td>MCQ Hypothesis</td>
+        <td>Predict how many angles can hit a 60 m target. Model: Exactly two ($\approx 35^\circ$ and $55^\circ$, adding to $90^\circ$). Feedback confirms $\sin 2\theta$ symmetry.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Double Trouble</strong></td>
+        <td>Numeric Prediction</td>
+        <td>Given baseline $v=15\text{ m/s} \to 22.6\text{ m}$, predict range at $v=30\text{ m/s}$. Model: $\approx 90.5\text{ m}$ ($4\times$). M2 feedback shows prediction vs reality without spoiling $v^2$.</td>
+      </tr>
+      <tr>
+        <td><strong>3. The Cliff Shot</strong></td>
+        <td>Interactive Virtual Lab</td>
+        <td>Find optimal angle from 20 m cliff at 10 m/s. Model: $\approx 24.3^\circ$ ($22.6\text{ m}$), beating $45^\circ$ ($20.3\text{ m}$). M1 feedback prompts why $45^\circ$ was beaten.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Spot the Flaw</strong></td>
+        <td>Controlled Experiment MCQ</td>
+        <td>Identify confounding when both angle and speed change simultaneously. Model: Change one variable at a time.</td>
+      </tr>
+      <tr>
+        <td><strong>5. Olympiad Stretch</strong></td>
+        <td>Analytical Justification Text</td>
+        <td>Find optimal angle for $h=30\text{ m}, v=15\text{ m/s}$ ($\approx 27.7^\circ$) and justify why $\theta^* \to 0^\circ$ as $h \to \infty$. Evaluated via Socratic AI.</td>
+      </tr>
+    </table>
+
+    <h2>D4: Working Application</h2>
+    <p><strong>Hosted URL:</strong> <a href="https://et617-23b2456.vercel.app">https://et617-23b2456.vercel.app</a></p>
+    <table>
+      <tr><th>Route</th><th>Screen Name</th><th>Inputs</th><th>Outputs &amp; Transitions</th></tr>
+      <tr><td><code>#/home</code></td><td>Roadmap</td><td>Card click, Resume button</td><td>Challenge status badges, trial counts &rarr; <code>#/predict/:id</code></td></tr>
+      <tr><td><code>#/predict/:id</code></td><td>Hypothesis</td><td>MCQ tiles, numeric inputs, text</td><td>Hypothesis saving, baseline comparison &rarr; <code>#/lab/:id</code></td></tr>
+      <tr><td><code>#/lab/:id</code></td><td>Virtual Lab</td><td>$\pm 1$ Steppers, sliders, Launch</td><td>Canvas animation, ghost paths, readouts ($R,H,T$), target hit toast &rarr; <code>#/results/:id</code></td></tr>
+      <tr><td><code>#/results/:id</code></td><td>Results</td><td>Support button, Spot-the-flaw quiz</td><td>Prediction vs result card, trial table, range bar chart &rarr; <code>#/support/:id</code></td></tr>
+      <tr><td><code>#/support/:id</code></td><td>Support Ladder</td><td>Ladder progression, sweep button</td><td>Gap naming, Socratic reflection, SVG sweep graph, revision &rarr; <code>#/lab/:id</code></td></tr>
+      <tr><td><code>#/summary</code></td><td>Summary</td><td>Roadmap button</td><td>Progressively unlocked physical principles &rarr; <code>#/home</code></td></tr>
+      <tr><td><code>#/about</code></td><td>About</td><td>Reset button</td><td>Identity token <code>23B2456</code>, C3 mobile specs, AI disclosure &rarr; <code>#/home</code></td></tr>
+    </table>
+    <p><strong>C3 Visible Implementation:</strong> 360 px viewport width, bottom 40% thumb zone, $54\times 48\text{ px}$ steppers, zero hover-only dependencies, identity token on every screen.</p>
+
+    <h2>D5: Two Contrasting Learner Scenarios</h2>
+    <h3>Scenario A: Correct Learner Path (Deductive Master)</h3>
+    <p>In Challenge 2, the learner recognizes that $R = \frac{v^2 \sin 2\theta}{g}$. Given the baseline of $22.6\text{ m}$ at $15\text{ m/s}$, she calculates $(2)^2 \times 22.6 = 90.4\text{ m}$ and inputs <code>90.5</code>. In the Lab, she launches at $30\text{ m/s}$ and observes $90.5\text{ m}$. The system recognizes the exact match, <strong>skips the Support Ladder entirely</strong>, marks Challenge 2 complete, and presents the <strong>Olympiad Extension Harder Follow-Up</strong>: <em>"If you triple launch speed (3×), by what factor will range increase?"</em></p>
+
+    <h3>Scenario B: Misconception Learner Path (M2 Speed Doubling &amp; Support Ladder)</h3>
+    <p>In Challenge 2, the learner assumes linear proportionality and enters <code>45.2</code> m. In the Lab, she launches at $30\text{ m/s}$ and observes $90.5\text{ m}$. The system flags M2 and <strong>strictly hides $v^2$</strong>, stating: <em>"Prediction Mismatch: You predicted 45.2 m, but the ball reached 90.5 m. Enter the Support Ladder to investigate."</em> The learner progresses through Rung 1 (inspect gap), Rung 2 (Socratic reflection), Rung 3 (controlled speed sweep from 10–35 m/s showing upward parabolic curve without peak giveaways), and Rung 4 (revises hypothesis). Upon retesting in the Lab, completion is unlocked.</p>
+
+    <h2>D6: AI Functionality Specification</h2>
+    <pre><code>System Prompt:
+You are a physics lab guide for a Class 11 Olympiad student. The student is exploring projectile motion (no air resistance, g = 9.8 m/s²).
+Rules:
+1. Never state the final answer (no optimal angle, no target range, no "4 times").
+2. Reply with ONE short Socratic question (max 25 words) that points at the variable or the experiment design.
+3. Tag the likely misconception: "M1" (45° is always best), "M2" (range is linear in speed), "CONFOUNDED" (changed two variables), or "NONE".
+4. Use simple, friendly language. Short sentences.
+Return ONLY JSON: {"tag": "...", "question": "..."}</code></pre>
+    <p><strong>Safety Validation Pipeline:</strong> Validates JSON schema, tag in <code>['M1', 'M2', 'CONFOUNDED', 'NONE']</code>, word count $\le 25$, terminates with <code>?</code>, and answer-leak regexes (rejects <code>24°</code>, <code>quadruple</code>, <code>v²</code>). 6000 ms timeout. Automatic fallback to pre-written Socratic prompts labelled as <code>"Offline feedback"</code>.</p>
+
+    <h2>D7: Pedagogical Rationale</h2>
+    <p>Constructivist inquiry requires cognitive conflict: observing the projectile overshoot 45 m to land at 90.5 m forces the learner to dismantle linear assumptions. In response to the Problem 5 design challenge, the 4-step Support Ladder provides structured scaffolding (gap naming &rarr; Socratic questioning &rarr; controlled variable sweep graph without peak callouts &rarr; hypothesis revision) without ever revealing the answer prematurely. Constraint C3 ensures one-handed mobile ergonomics via large $54\times 48\text{ px}$ steppers, while high-achieving Olympiad learners (L6) bypass scaffolding when answering correctly to receive advanced extension challenges.</p>
+
+    <h2>D8: Evaluation Plan</h2>
+    <table>
+      <tr><th>Outcome</th><th>Developing (1)</th><th>Proficient (2)</th><th>Exemplary (3)</th></tr>
+      <tr><td><strong>LO1: Speed Scaling ($R \propto v^2$)</strong></td><td>Predicts linear doubling; fails to revise.</td><td>Identifies mismatch; revises via support sweep.</td><td>Immediately predicts $90.5\text{ m}$; solves 3× harder follow-up.</td></tr>
+      <tr><td><strong>LO2: Complementary Angles ($90^\circ - \theta$)</strong></td><td>Finds only one hitting angle.</td><td>Finds 35° and 55°; recognizes sum = 90°.</td><td>Explains symmetry via $\sin 2\theta = \sin(180^\circ - 2\theta)$.</td></tr>
+      <tr><td><strong>LO3: Cliff Optimum Shift ($\theta^* < 45^\circ$)</strong></td><td>Insists 45° is optimal despite data.</td><td>Discovers $\approx 24^\circ$; notes extra air time.</td><td>Derives $\theta^* = \arctan\left(\frac{v}{\sqrt{v^2 + 2gh}}\right) \to 0^\circ$ as $h \to \infty$.</td></tr>
+    </table>
+    <p><strong>Success Metric:</strong> $\ge 85\%$ identify both complementary angles; $\ge 80\%$ resolve M2 via the ladder; $\ge 75\%$ justify the cliff angle shift.</p>
+
+    <h2>AI-Use Log and Reflection</h2>
+    <table>
+      <tr><th>Phase</th><th>AI Action</th><th>Outcome</th></tr>
+      <tr><td>P1: Skeleton</td><td>Generated pure physics formulas and 5 acceptance tests.</td><td>5/5 tests passed; clean separation from UI.</td></tr>
+      <tr><td>P2: Virtual Lab</td><td>Generated auto-scaling coordinate projection &amp; steppers.</td><td>Sharp DPR canvas rendering; C3 thumb zone.</td></tr>
+      <tr><td>P3: Challenges</td><td>Structured 4 challenges, predict forms, and trial tables.</td><td>Complementary angles &amp; M1/M2 detection active.</td></tr>
+      <tr><td>P4: Diagnosis</td><td>Built 4-step ladder &amp; pedagogical safeguards.</td><td>Prevented premature disclosure of $v^2$ and $24^\circ$.</td></tr>
+      <tr><td>P6: AI &amp; Safety</td><td>Integrated Gemini REST, validator, and offline fallback.</td><td>7/7 safety tests passed; leak rejections verified.</td></tr>
+      <tr><td>P7: Verification</td><td>Finalized About screen, README, and checklist.</td><td>All 9 checklist items verified.</td></tr>
+    </table>
+    <p><strong>Reflection:</strong> Human instructional oversight was indispensable in preventing early AI drafts from immediately explaining the physics formula, preserving authentic inductive inquiry. Raw chat history export is committed at <a href="Chat_History.txt">Chat_History.txt</a>.</p>
+  </div>
+</body>
+</html>
