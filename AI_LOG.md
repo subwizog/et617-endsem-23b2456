@@ -102,3 +102,28 @@
      - Tested rejection of "quadruple" in Challenge 2.
      - Tested acceptance of valid Socratic questions.
      - Tested length and punctuation constraints (**7/7 tests passed**).
+
+## Prompt Group 6: Phase 7 Final Verification, About Screen Polish & Comprehensive Documentation
+- **Prompt:** "next" (Proceed to Phase 7 of PLAN.md: About screen, README, polish, C3 verification at 360 px, accessibility basics, final verification checklist).
+- **Actions taken:**
+  1. Updated About Screen (`#screen-about`) with:
+     - Full card breakdown: Candidate Roll No `23B2456`, Problem P5, Topic T10, Learner L6 (Ananya, 16), Constraint C3.
+     - Visible C3 One-Handed Mobile specifications card detailing the thumb-zone hierarchy and $\ge 48\text{ px}$ targets.
+     - Ideal physics model assumptions ($g=9.8\text{ m/s}^2$, no drag, flat landing).
+     - AI Socratic Guide disclosure detailing Google Gemini REST API and answer-leak validation.
+     - "Reset All Progress & Data" button connected to `AppState.resetAll()`.
+  2. Verified mobile responsiveness and accessibility:
+     - 360 px viewport width with zero horizontal overflow.
+     - High contrast accessible color palette.
+     - Persistent footer `23B2456 · ET 617 End-Sem` visible across all 7 routes.
+     - Complete ARIA labeling on steppers, sliders, and buttons.
+  3. Built comprehensive `README.md` covering:
+     - Live application URL placeholder.
+     - Local development and test commands.
+     - D4 screen and routes map.
+     - D6 AI specifications and exact prompt definitions.
+     - D5 contrasting learner scenarios.
+     - Detailed "Where to change what" table for the viva live modification request.
+  4. Executed all test suites:
+     - `node tests/physics.test.js`: 5/5 passed.
+     - `node tests/ai_validator.test.js`: 7/7 passed.

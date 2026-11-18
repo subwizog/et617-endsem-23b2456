@@ -812,6 +812,19 @@
     if (window.LabController) {
       window.LabController.init();
     }
+
+    const resetAllBtn = document.getElementById('btn-reset-all');
+    if (resetAllBtn) {
+      resetAllBtn.onclick = () => {
+        if (confirm('Are you sure you want to reset all progress, trials, and saved hypotheses?')) {
+          window.AppState.resetAll();
+          alert('All application progress has been reset to initial state.');
+          window.location.hash = '#/home';
+          renderHomeScreen();
+        }
+      };
+    }
+
     if (!window.location.hash) {
       window.location.hash = '#/home';
     } else {
