@@ -36,3 +36,20 @@
      - Direct hit / landing range toast notifications.
   4. Updated `index.html` and `js/app.js` to initialize the Lab canvas on route activation.
   5. Verified all acceptance criteria for Phase 2.
+
+## Prompt Group 3: Phase 3 Home, Predict & Results Screens, Challenges 1–3 Content & Target Logic
+- **Prompt:** "next" (Proceed to Phase 3 per PLAN.md)
+- **Actions taken:**
+  1. Built `js/content.js` housing complete curriculum for Challenges 1–4, evaluation logic, question definitions, and the "Spot the Flaw" controlled experiment task.
+  2. Implemented Home Screen (`renderHomeScreen`) displaying active challenge progress, unlocked states, and trial counters.
+  3. Implemented Predict Screen (`renderPredictScreen`):
+     - Challenge 1: MCQ hypothesis on complementary angles ("How many different launch angles can hit a target on flat ground?").
+     - Challenge 2: Numeric prediction with baseline trial ($v=15\text{ m/s} \to R=22.6\text{ m}$) asking for range at $v=30\text{ m/s}$.
+     - Challenge 3: MCQ hypothesis on cliff launch ("Which angle gives the longest horizontal range from a 20 m cliff?").
+     - Challenge 4: Olympiad stretch written hypothesis.
+  4. Implemented Results Screen (`renderResultsScreen`):
+     - Displays dynamic Prediction vs Result analysis.
+     - Trial history log table with hit highlighting.
+     - Interactive horizontal bar chart for visual trajectory comparisons.
+     - Interactive "Spot the Flaw in the Experiment" task.
+  5. Verified all acceptance criteria for Phase 3 via Node.js script.

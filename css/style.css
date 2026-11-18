@@ -518,3 +518,185 @@ main {
   font-size: 13px;
   margin-top: 6px;
 }
+
+
+/* ==================================================== */
+/* PREDICT SCREEN & FORM STYLES */
+/* ==================================================== */
+
+.predict-form {
+  margin-top: 10px;
+}
+
+.mcq-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.mcq-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  user-select: none;
+  min-height: 48px;
+}
+
+.mcq-option:active {
+  background: var(--primary-light);
+}
+
+.mcq-option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.mcq-option input[type="radio"] {
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+}
+
+.numeric-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.num-input {
+  flex: 1;
+  height: 48px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  outline: none;
+}
+
+.num-input:focus {
+  border-color: var(--border-focus);
+}
+
+.unit-addon {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 30px;
+}
+
+.baseline-box {
+  background: #f1f3f4;
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  line-height: 1.45;
+}
+
+/* ==================================================== */
+/* RESULTS SCREEN & TRIAL TABLE */
+/* ==================================================== */
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.trial-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  text-align: center;
+  background: #ffffff;
+}
+
+.trial-table th {
+  background: #f1f3f4;
+  padding: 8px 6px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.trial-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid #edf0f2;
+  color: var(--text-main);
+}
+
+.trial-table tr.highlight-hit td {
+  background-color: #e6f4ea;
+  font-weight: 700;
+  color: #0d652d;
+}
+
+/* Mini Bar Chart for Trials */
+.mini-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.chart-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.chart-label {
+  flex: 0 0 60px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.chart-bar-bg {
+  flex: 1;
+  height: 20px;
+  background: #f1f3f4;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.chart-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.chart-bar-fill.hit {
+  background: var(--success);
+}
+
+.chart-val {
+  flex: 0 0 45px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.spot-flaw-card {
+  border: 1.5px dashed var(--accent);
+  background: #fff8e1;
+}
