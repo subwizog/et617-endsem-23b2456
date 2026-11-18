@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Projectile Motion Inquiry Virtual Lab for Class 11 Olympiad Physics">
+  <title>Projectile Lab - 23B2456</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="app-title-group">
+        <h1 id="header-title">Projectile Virtual Lab</h1>
+        <div class="sub" id="header-sub">Class 11 Olympiad · Inquiry Lab</div>
+      </div>
+      <span class="badge-tag" id="header-badge">P5 · T10</span>
+    </header>
+
+    <!-- Main Screens Container -->
+    <main>
+      <!-- Screen 1: Home (#/home) -->
+      <section id="screen-home" class="screen">
+        <h2 class="screen-heading">Challenge Roadmap</h2>
+        <p class="screen-intro">Explore projectile motion through inquiry. Test hypotheses, break misconceptions, and discover the physics.</p>
+
+        <div id="home-challenge-list">
+          <div class="card" id="card-ch1">
+            <div class="card-title">
+              <span>1. The Bullseye</span>
+              <span class="badge-status unlocked">Active</span>
+            </div>
+            <div class="card-desc">Hit a target at 60 m using two different launch angles on flat ground.</div>
+            <a href="#/predict/1" class="btn btn-primary">Start Challenge 1</a>
+          </div>
+
+          <div class="card" id="card-ch2">
+            <div class="card-title">
+              <span>2. Double Trouble</span>
+              <span class="badge-status">Locked</span>
+            </div>
+            <div class="card-desc">Predict what happens to the range when launch speed doubles from 15 to 30 m/s.</div>
+            <a href="#/predict/2" class="btn btn-secondary">Open Challenge 2</a>
+          </div>
+
+          <div class="card" id="card-ch3">
+            <div class="card-title">
+              <span>3. The Cliff Shot</span>
+              <span class="badge-status">Locked</span>
+            </div>
+            <div class="card-desc">Launch from a 20 m cliff. Does 45° still give the longest range?</div>
+            <a href="#/predict/3" class="btn btn-secondary">Open Challenge 3</a>
+          </div>
+
+          <div class="card" id="card-ch4">
+            <div class="card-title">
+              <span>4. Olympiad Stretch</span>
+              <span class="badge-status">Locked</span>
+            </div>
+            <div class="card-desc">h = 30 m cliff launch: derive and explain the shifting optimal angle.</div>
+            <a href="#/predict/4" class="btn btn-secondary">Open Challenge 4</a>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top: 14px;">
+          <a href="#/about" class="btn btn-secondary">About Lab &amp; Token</a>
+        </div>
+      </section>
+
+      <!-- Screen 2: Predict (#/predict or #/predict/:id) -->
+      <section id="screen-predict" class="screen">
+        <div class="card">
+          <div class="card-title">
+            <span id="predict-challenge-title">Hypothesis &amp; Prediction</span>
+            <span class="badge-tag" id="predict-badge">Step 1 of 3</span>
+          </div>
+          <p class="card-desc" id="predict-challenge-desc">Form your hypothesis before running the experiment.</p>
+        </div>
+
+        <div class="route-placeholder" id="predict-container">
+          <strong>Predict Screen Active</strong>
+          <p>Learner selects/writes hypothesis and inputs prediction before testing in the Lab.</p>
+        </div>
+
+        <div class="btn-row" style="margin-top: 16px;">
+          <a href="#/lab/1" class="btn btn-primary" id="predict-proceed-btn">Enter Virtual Lab &rarr;</a>
+        </div>
+      </section>
+
+      <!-- Screen 3: Lab (#/lab or #/lab/:id) -->
+      <section id="screen-lab" class="screen">
+        <div class="card">
+          <div class="card-title">
+            <span id="lab-challenge-title">Virtual Lab: Trajectory Canvas</span>
+            <span class="badge-tag" id="lab-badge">Experiment</span>
+          </div>
+          <p class="card-desc" id="lab-challenge-goal">Manipulate angle, speed, and height to observe trajectory.</p>
+        </div>
+
+        <div class="route-placeholder" id="lab-canvas-placeholder" style="min-height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          <strong style="color: var(--primary);">Canvas Simulation View</strong>
+          <p>Interactive Canvas with ghost paths and steppers will be wired in Phase 2.</p>
+        </div>
+
+        <div class="btn-row" style="margin-top: 16px;">
+          <a href="#/results/1" class="btn btn-primary" id="lab-results-btn">View Results &amp; Analysis &rarr;</a>
+        </div>
+      </section>
+
+      <!-- Screen 4: Results (#/results or #/results/:id) -->
+      <section id="screen-results" class="screen">
+        <div class="card">
+          <div class="card-title">
+            <span id="results-title">Trial Results &amp; Data Table</span>
+            <span class="badge-tag">Analysis</span>
+          </div>
+          <p class="card-desc">Compare predictions against experimental data.</p>
+        </div>
+
+        <div class="route-placeholder" id="results-container">
+          <strong>Results Screen Active</strong>
+          <p>Displays trial table, ghost trajectory comparisons, and range-vs-variable plots.</p>
+        </div>
+
+        <div class="btn-row" style="margin-top: 16px;">
+          <a href="#/support/1" class="btn btn-accent" id="results-support-btn">Check Support Ladder &rarr;</a>
+          <a href="#/summary" class="btn btn-primary" id="results-summary-btn">Go to Summary</a>
+        </div>
+      </section>
+
+      <!-- Screen 5: Support / Revise (#/support or #/support/:id) -->
+      <section id="screen-support" class="screen">
+        <div class="card">
+          <div class="card-title">
+            <span id="support-title">Inquiry Support Ladder</span>
+            <span class="badge-tag" style="background:#fef7e0; color:#b06000;">Scaffolding</span>
+          </div>
+          <p class="card-desc">Guided reflection to uncover misconceptions without giving away answers.</p>
+        </div>
+
+        <div class="route-placeholder" id="support-container">
+          <strong>Support / Revise Screen Active</strong>
+          <p>Multi-level support: Gap naming &rarr; Socratic question &rarr; Controlled sweep &rarr; Revise hypothesis.</p>
+        </div>
+
+        <div class="btn-row" style="margin-top: 16px;">
+          <a href="#/lab/1" class="btn btn-primary" id="support-retest-btn">&larr; Return to Lab &amp; Re-test</a>
+        </div>
+      </section>
+
+      <!-- Screen 6: Summary (#/summary) -->
+      <section id="screen-summary" class="screen">
+        <div class="card">
+          <div class="card-title">
+            <span>Inquiry Journey Summary</span>
+            <span class="badge-tag">Progress</span>
+          </div>
+          <p class="card-desc">Key physical principles discovered during the inquiry.</p>
+        </div>
+
+        <div class="route-placeholder" id="summary-container">
+          <strong>Summary Screen Active</strong>
+          <p>Review completed challenges, synthesized formulas, and unlocked achievements.</p>
+        </div>
+
+        <div class="btn-row" style="margin-top: 16px;">
+          <a href="#/home" class="btn btn-primary">&larr; Return to Roadmap</a>
+        </div>
+      </section>
+
+      <!-- Screen 7: About (#/about) -->
+      <section id="screen-about" class="screen">
+        <div class="card">
+          <div class="card-title">
+            <span>About This Application</span>
+            <span class="badge-tag">ET 617</span>
+          </div>
+          <p class="card-desc">Built for ET 617 End-Semester Examination.</p>
+          <div style="font-size: 13.5px; line-height: 1.6; margin-top: 8px;">
+            <p><strong>Candidate Roll No:</strong> 23B2456</p>
+            <p><strong>Problem:</strong> P5 Inquiry-based virtual laboratory</p>
+            <p><strong>Topic:</strong> T10 Projectile motion (angle &amp; speed vs range)</p>
+            <p><strong>Learner:</strong> L6 Olympiad learner (Ananya, 16, Class 11)</p>
+            <p><strong>Design Constraint:</strong> C3 Mobile-first, one-handed (360 px width)</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Physics Model &amp; Assumptions</span>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+            <ul style="padding-left: 18px;">
+              <li>Ideal projectile motion: <strong>no air resistance</strong>.</li>
+              <li>Gravitational acceleration <strong>g = 9.8 m/s²</strong> (uniform, downward).</li>
+              <li>Flat landing surface at y = 0. Launch height h &ge; 0.</li>
+              <li>Ranges R are measured horizontally from launch x = 0.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>C3: One-Handed Mobile Design</span>
+          </div>
+          <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+            <p>Optimized for 360 px screen width. All key actions, steppers, and navigation sit in the bottom thumb zone with tap targets &ge; 48 px. No drag-and-drop or hover-only interactions.</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <a href="#/home" class="btn btn-primary">&larr; Back to Challenges</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Persistent Bottom Navigation Bar (Thumb Zone) -->
+    <nav class="bottom-nav" aria-label="Main Navigation">
+      <a href="#/home" class="nav-item" id="nav-home">
+        <span class="nav-icon">🧭</span>
+        <span>Home</span>
+      </a>
+      <a href="#/lab/1" class="nav-item" id="nav-lab">
+        <span class="nav-icon">🧪</span>
+        <span>Lab</span>
+      </a>
+      <a href="#/results/1" class="nav-item" id="nav-results">
+        <span class="nav-icon">📊</span>
+        <span>Results</span>
+      </a>
+      <a href="#/about" class="nav-item" id="nav-about">
+        <span class="nav-icon">ℹ️</span>
+        <span>About</span>
+      </a>
+    </nav>
+
+    <!-- Global Footer Visible on EVERY Screen -->
+    <footer class="global-footer" id="app-footer">
+      <span><strong>23B2456</strong> · ET 617 End-Sem</span>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/physics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
